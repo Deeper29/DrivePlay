@@ -8,7 +8,7 @@
       name="description"
       content="用可视化低速汽车模型，学习方向盘、车轮和倒车停车的运动原理。支持键盘操作、倒车入库和侧方停车。"
     />
-    <title>泊车实验室 · 看懂方向，从容停车</title>
+    <title>DrivePlay · 可视化驾驶与泊车原理练习</title>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23167c69'/%3E%3Ctext x='12' y='29' font-family='sans-serif' font-size='28' font-weight='bold' fill='white'%3EP%3C/text%3E%3C/svg%3E"
@@ -79,33 +79,30 @@
       </defs>
     </svg>
     <header class="site-header">
-      <a class="brand" href="./" aria-label="泊车实验室首页"
-        ><span class="brand-mark">p<span></span></span
-        ><span>泊车实验室<small>PARKING LAB</small></span></a
-      >
-      <div class="header-center">
-        <span class="status-dot"></span> 把驾驶原理，变成看得见的直觉
-      </div>
-      <button class="button guide-button" id="guide-button">
-        <svg><use href="#i-book" /></svg>操作指南<span class="key-hint">?</span>
-      </button>
-    </header>
-    <main>
-      <section class="intro">
-        <div>
-          <div class="eyebrow">LEARN BY DRIVING</div>
-          <h1>看懂方向，<span>从容停车。</span></h1>
-          <p>在安全的虚拟场地里，理解每一次打方向背后的运动原理。</p>
+      <a class="brand" href="./" aria-label="DrivePlay 首页">
+        <span class="brand-mark" aria-hidden="true">p<span></span></span>
+        <div class="brand-copy">
+          <h1>DrivePlay</h1>
+          <small>可视化驾驶与泊车原理练习</small>
         </div>
+      </a>
+      <div class="header-actions">
         <div class="model-badge">
-          <svg><use href="#i-car" /></svg
-          ><span
+          <svg><use href="#i-car" /></svg>
+          <span
             >前轮转向 · 低速几何模型<small
               >真实比例车辆 / 可视化运动轨迹</small
             ></span
           >
         </div>
-      </section>
+        <button class="button guide-button" id="guide-button">
+          <svg><use href="#i-book" /></svg>操作指南<span class="key-hint"
+            >?</span
+          >
+        </button>
+      </div>
+    </header>
+    <main>
       <div class="workspace">
         <aside class="left-sidebar" aria-label="训练设置">
           <div class="section-heading">选择练习<span>01 — 03</span></div>

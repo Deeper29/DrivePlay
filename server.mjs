@@ -38,5 +38,5 @@ http
     }
   })
   .listen(port, "0.0.0.0", () =>
-    console.log(`Parking Lab: http://localhost:${port}`),
+    console.log(`DrivePlay: http://localhost:${port}`),
   );

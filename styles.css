@@ -81,13 +81,26 @@ a {
   font-weight: 700;
   letter-spacing: 0.6px;
 }
+.brand h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.2;
+}
 .brand small {
   display: block;
-  font-size: 9px;
-  letter-spacing: 2.4px;
-  margin-top: 5px;
-  color: #82908a;
-  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  margin-top: 6px;
+  color: #566c5c;
+  font-weight: 450;
+  white-space: nowrap;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
 }
 .brand-mark {
   position: relative;
@@ -113,15 +126,6 @@ a {
   background: #98d7bb;
   border-radius: 2px;
 }
-.header-center {
-  font-size: 12px;
-  color: #829089;
-  letter-spacing: 0.6px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.status-dot,
 .live-dot,
 .pulse-dot {
   width: 6px;
@@ -129,9 +133,6 @@ a {
   border-radius: 50%;
   background: #32957a;
   display: inline-block;
-}
-.header-center .status-dot {
-  box-shadow: 0 0 0 4px #edf6f1;
 }
 .button {
   border: 1px solid var(--border);
@@ -174,32 +175,11 @@ main {
   max-width: 1920px;
   margin: auto;
 }
-.intro {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px 2px 26px;
-}
 .eyebrow {
   color: #82948a;
   font-size: 9px;
   font-weight: 650;
   letter-spacing: 2px;
-}
-.intro h1 {
-  font-size: 27px;
-  font-weight: 650;
-  letter-spacing: 1.4px;
-  margin: 9px 0 9px;
-}
-.intro h1 span {
-  color: var(--green);
-}
-.intro p {
-  color: #8b9690;
-  font-size: 12px;
-  letter-spacing: 0.2px;
-  margin: 0;
 }
 .model-badge {
   display: flex;
@@ -227,6 +207,7 @@ main {
   margin-top: 5px;
 }
 .workspace {
+  margin-top: 26px;
   display: grid;
   grid-template-columns: 216px minmax(0, 1fr) 258px;
   gap: 20px;
@@ -1574,9 +1555,6 @@ dialog > .primary {
     left: 12px;
     gap: 9px;
   }
-  .header-center {
-    font-size: 11px;
-  }
   .canvas-wrap {
     min-height: 470px;
   }
@@ -1637,9 +1615,6 @@ dialog > .primary {
   .lesson-card {
     min-height: 260px;
   }
-  .header-center {
-    display: none;
-  }
   .canvas-wrap {
     height: 540px;
   }
@@ -1664,8 +1639,11 @@ dialog > .primary {
     padding-left: 8px;
   }
   .brand small {
-    font-size: 7px;
-    letter-spacing: 2px;
+    font-size: 8px;
+    letter-spacing: 0.15px;
+  }
+  .header-actions {
+    gap: 0;
   }
   .guide-button {
     font-size: 10px;
@@ -1680,17 +1658,6 @@ dialog > .primary {
   }
   main {
     padding: 0 14px;
-  }
-  .intro {
-    padding: 23px 3px 21px;
-  }
-  .intro h1 {
-    font-size: 24px;
-  }
-  .intro p {
-    font-size: 10px;
-    line-height: 1.8;
-    max-width: 310px;
   }
   .model-badge {
     display: none;
@@ -1961,9 +1928,7 @@ dialog > .primary {
   }
 }
 .brand small,
-.header-center,
 .eyebrow,
-.intro p,
 .model-badge,
 .model-badge small,
 .section-heading > span,

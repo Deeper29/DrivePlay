@@ -8,6 +8,41 @@ const resources = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((value) => !value.startsWith("#") && !/^[a-z]+:/i.test(value));
 
+test("product identity is DrivePlay with Chinese positioning", () => {
+  assert.match(html, /<title>DrivePlay · 可视化驾驶与泊车原理练习<\/title>/);
+  assert.match(html, /<h1>DrivePlay<\/h1>/);
+  assert.match(html, /<small>可视化驾驶与泊车原理练习<\/small>/);
+  assert.match(html, /aria-label="DrivePlay 首页"/);
+  assert.equal((html.match(/<h1>/g) || []).length, 1);
+});
+
+test("removed promotional sections leave the practice controls intact", () => {
+  for (const removed of [
+    "泊车实验室",
+    "PARKING LAB",
+    "LEARN BY DRIVING",
+    "把驾驶原理，变成看得见的直觉",
+    "看懂方向，",
+    "从容停车。",
+    "在安全的虚拟场地里，理解每一次打方向背后的运动原理。",
+    'class="header-center"',
+    'class="intro"',
+  ]) {
+    assert.ok(
+      !html.includes(removed),
+      `Unexpected retired content: ${removed}`,
+    );
+  }
+  for (const retained of [
+    'class="workspace"',
+    'class="model-badge"',
+    'id="guide-button"',
+    'id="scene"',
+  ]) {
+    assert.ok(html.includes(retained));
+  }
+});
+
 test("site assets and home link remain inside root and project Pages deployments", () => {
   assert.ok(resources.includes("./styles.css"));
   assert.ok(resources.includes("./app.js"));

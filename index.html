@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7f9" />
+    <meta
+      name="description"
+      content="用可视化低速汽车模型，学习方向盘、车轮和倒车停车的运动原理。支持键盘操作、倒车入库和侧方停车。"
+    />
+    <title>泊车实验室 · 看懂方向，从容停车</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23167c69'/%3E%3Ctext x='12' y='29' font-family='sans-serif' font-size='28' font-weight='bold' fill='white'%3EP%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg
+      class="icon-defs"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <symbol id="i-arrow" viewBox="0 0 24 24">
+          <path d="M5 12h14m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol id="i-car" viewBox="0 0 24 24">
+          <path d="m5 9 2-5h10l2 5M4 10h16v8H4zM6 18v2m12-2v2M7 14h2m6 0h2" />
+        </symbol>
+        <symbol id="i-parking" viewBox="0 0 24 24">
+          <path d="M5 3H3v18h18v-2M10 18V6h5a4 4 0 0 1 0 8h-5" />
+        </symbol>
+        <symbol id="i-parallel" viewBox="0 0 24 24">
+          <path d="M4 3v18m4-15h11v4H8zm0 9h11v4H8zm15-3H11" />
+        </symbol>
+        <symbol id="i-compass" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path d="m16 8-3 5-5 3 3-5z" />
+        </symbol>
+        <symbol id="i-book" viewBox="0 0 24 24">
+          <path
+            d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1zm0 0v15"
+          />
+        </symbol>
+        <symbol id="i-info" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 11v6m0-11v2" />
+        </symbol>
+        <symbol id="i-reset" viewBox="0 0 24 24">
+          <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
+        </symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24">
+          <path d="M8 5v14M16 5v14" />
+        </symbol>
+        <symbol id="i-play" viewBox="0 0 24 24">
+          <path d="m8 4 12 8-12 8z" />
+        </symbol>
+        <symbol id="i-eye" viewBox="0 0 24 24">
+          <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12" />
+          <circle cx="12" cy="12" r="3" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="m5 12 4 4L19 6" />
+        </symbol>
+        <symbol id="i-close" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M6 18 18 6" />
+        </symbol>
+        <symbol id="i-keyboard" viewBox="0 0 24 24">
+          <rect x="2" y="5" width="20" height="14" rx="3" />
+          <path d="M6 9h1m4 0h1m4 0h1M6 12h1m4 0h1m4 0h1M7 16h10" />
+        </symbol>
+        <symbol id="i-bulb" viewBox="0 0 24 24">
+          <path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 2H9s0-1-1-2" />
+        </symbol>
+        <symbol id="i-expand" viewBox="0 0 24 24">
+          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+        </symbol>
+      </defs>
+    </svg>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="泊车实验室首页"
+        ><span class="brand-mark">p<span></span></span
+        ><span>泊车实验室<small>PARKING LAB</small></span></a
+      >
+      <div class="header-center">
+        <span class="status-dot"></span> 把驾驶原理，变成看得见的直觉
+      </div>
+      <button class="button guide-button" id="guide-button">
+        <svg><use href="#i-book" /></svg>操作指南<span class="key-hint">?</span>
+      </button>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow">LEARN BY DRIVING</div>
+          <h1>看懂方向，<span>从容停车。</span></h1>
+          <p>在安全的虚拟场地里，理解每一次打方向背后的运动原理。</p>
+        </div>
+        <div class="model-badge">
+          <svg><use href="#i-car" /></svg
+          ><span
+            >前轮转向 · 低速几何模型<small
+              >真实比例车辆 / 可视化运动轨迹</small
+            ></span
+          >
+        </div>
+      </section>
+      <div class="workspace">
+        <aside class="left-sidebar" aria-label="训练设置">
+          <div class="section-heading">选择练习<span>01 — 03</span></div>
+          <div class="scenario-list" role="group" aria-label="练习场景">
+            <button
+              class="scenario selected"
+              data-scenario="reverse"
+              aria-pressed="true"
+            >
+              <span class="scenario-icon"
+                ><svg><use href="#i-parking" /></svg></span
+              ><span class="scenario-copy"
+                ><strong>倒车入库</strong
+                ><small>掌握转向与回正时机</small></span
+              ><span class="scenario-number">01</span>
+            </button>
+            <button
+              class="scenario"
+              data-scenario="parallel"
+              aria-pressed="false"
+            >
+              <span class="scenario-icon"
+                ><svg><use href="#i-parallel" /></svg></span
+              ><span class="scenario-copy"
+                ><strong>侧方停车</strong
+                ><small>理解车尾进位与车头外摆</small></span
+              ><span class="scenario-number">02</span>
+            </button>
+            <button class="scenario" data-scenario="free" aria-pressed="false">
+              <span class="scenario-icon"
+                ><svg><use href="#i-compass" /></svg></span
+              ><span class="scenario-copy"
+                ><strong>自由探索</strong
+                ><small>随意试，慢慢建立车感</small></span
+              ><span class="scenario-number">03</span>
+            </button>
+          </div>
+          <div class="section-heading visualization-heading">
+            可视化辅助<svg><use href="#i-eye" /></svg>
+          </div>
+          <div class="settings">
+            <label class="setting"
+              ><span
+                ><i class="legend-line mint"></i>预测轨迹<small
+                  >保持当前方向时的行驶路径</small
+                ></span
+              ><input
+                id="prediction-toggle"
+                type="checkbox"
+                checked
+                role="switch" /><span class="switch"></span
+            ></label>
+            <label class="setting"
+              ><span
+                ><i class="legend-line blue"></i>车轮轨迹<small
+                  >对比前后轮走过的路线</small
+                ></span
+              ><input
+                id="trails-toggle"
+                type="checkbox"
+                checked
+                role="switch" /><span class="switch"></span
+            ></label>
+            <label class="setting"
+              ><span
+                ><i class="legend-circle"></i>转弯圆心<small
+                  >观察内轮差与转弯半径</small
+                ></span
+              ><input id="center-toggle" type="checkbox" role="switch" /><span
+                class="switch"
+              ></span
+            ></label>
+          </div>
+          <label class="slow-setting"
+            ><span class="turtle-icon">◴</span
+            ><span
+              ><strong>慢速练习</strong
+              ><small>给观察和思考多一点时间</small></span
+            ><input
+              id="slow-toggle"
+              type="checkbox"
+              checked
+              role="switch" /><span class="switch"></span
+          ></label>
+          <div class="tip-card">
+            <span class="tip-title"
+              ><svg><use href="#i-bulb" /></svg>一个重要的直觉</span
+            >
+            <p>倒车时，想让<strong>车尾往哪边走</strong>，就往哪边打方向。</p>
+            <span>这里的左右，始终以车辆为参照。</span>
+          </div>
+          <div class="vehicle-spec">
+            <span>练习车辆</span><strong>标准小型轿车</strong>
+            <div><span>车长 4.46 m</span><span>轴距 2.70 m</span></div>
+          </div>
+        </aside>
+        <section class="simulator" aria-label="交互式泊车模拟器">
+          <div class="scene-topbar">
+            <div>
+              <span class="live-dot"></span
+              ><strong id="scene-title">倒车入库</strong
+              ><span class="scene-divider"></span
+              ><span class="scene-caption">俯视练习场</span>
+            </div>
+            <div class="scene-actions">
+              <button
+                id="pause-button"
+                class="icon-button"
+                aria-label="暂停练习"
+                title="暂停 / 继续（P）"
+              >
+                <svg><use href="#i-pause" /></svg></button
+              ><button
+                id="reset-button"
+                class="icon-button"
+                aria-label="重新开始"
+                title="重新开始（R）"
+              >
+                <svg><use href="#i-reset" /></svg></button
+              ><button
+                id="fullscreen-button"
+                class="icon-button"
+                aria-label="全屏练习场"
+                title="全屏练习场"
+              >
+                <svg><use href="#i-expand" /></svg>
+              </button>
+            </div>
+          </div>
+          <div
+            class="canvas-wrap"
+            id="canvas-wrap"
+            role="region"
+            tabindex="0"
+            aria-label="驾驶练习场，W前进、S倒车、A和D转向、空格刹车、C回正。点击此处后使用键盘。"
+          >
+            <canvas id="scene" aria-label="车辆、目标车位及运动轨迹俯视图"
+              >请使用支持 Canvas 的现代浏览器。</canvas
+            >
+            <div class="scene-label">
+              <span class="scene-label-icon">P</span
+              ><span id="scene-goal">将车辆倒入绿色车位</span>
+            </div>
+            <div class="alignment-feedback" id="alignment-feedback">
+              车身与车位夹角 <strong id="alignment-angle">90.0°</strong>
+            </div>
+            <div class="view-label"><span></span> TOP VIEW <i>2D</i></div>
+            <div class="scene-legend">
+              <span><i class="legend-line mint"></i>预测路径</span
+              ><span><i class="legend-line blue"></i>前轮</span
+              ><span><i class="legend-line orange"></i>后轮</span>
+            </div>
+            <div class="scale"><span></span>2 m</div>
+            <div
+              id="toast"
+              class="toast"
+              role="status"
+              aria-live="polite"
+            ></div>
+            <div id="pause-overlay" class="state-overlay" hidden>
+              <span class="overlay-icon">Ⅱ</span>
+              <h2>停下来，想一想</h2>
+              <p>观察车轮与车身的方向，再继续练习。</p>
+              <button id="resume-button" class="button primary">
+                继续练习 <svg><use href="#i-play" /></svg>
+              </button>
+            </div>
+            <div id="success-overlay" class="state-overlay" hidden>
+              <span class="success-check"
+                ><svg><use href="#i-check" /></svg
+              ></span>
+              <div class="eyebrow">NICELY PARKED</div>
+              <h2>停得刚刚好。</h2>
+              <p id="success-message">车身已完整入位，并且停稳。</p>
+              <button id="next-button" class="button primary">
+                试试侧方停车 <svg><use href="#i-arrow" /></svg></button
+              ><button id="again-button" class="text-button">再练一次</button>
+            </div>
+          </div>
+          <div class="driving-dock">
+            <div class="speed-readout">
+              <span class="dock-label">当前速度</span>
+              <div><strong id="speed">0.0</strong><span>km/h</span></div>
+            </div>
+            <div class="gear-readout">
+              <span class="dock-label">行驶状态</span>
+              <div>
+                <span id="gear" class="gear neutral">N</span
+                ><strong id="motion-label">静止</strong>
+              </div>
+            </div>
+            <div class="direction-readout">
+              <span class="dock-label">前轮等效转角</span>
+              <div>
+                <strong id="steer-number">0°</strong
+                ><span id="steer-direction">已回正</span>
+              </div>
+              <div class="steer-track"><span id="steer-indicator"></span></div>
+            </div>
+            <button class="recenter-button" id="center-button">
+              <svg><use href="#i-reset" /></svg><span>方向回正</span
+              ><kbd>C</kbd>
+            </button>
+          </div>
+          <div class="keyboard-bar">
+            <span><kbd>W</kbd><kbd>S</kbd> 前进 / 倒车</span
+            ><span><kbd>A</kbd><kbd>D</kbd> 左打 / 右打</span
+            ><span><kbd class="space-key">SPACE</kbd> 刹车</span
+            ><span class="arrow-alternative">方向键也可操作</span>
+          </div>
+          <div class="touch-controls" aria-label="触屏驾驶操作">
+            <button data-control="left" aria-label="左打方向">← 左打</button
+            ><button data-control="forward">↑ 前进</button
+            ><button data-control="brake">刹车</button
+            ><button data-control="reverse">↓ 倒车</button
+            ><button data-control="right" aria-label="右打方向">右打 →</button>
+          </div>
+        </section>
+        <aside class="right-sidebar" aria-label="车辆状态和练习提示">
+          <section class="steering-card">
+            <div class="section-heading">
+              方向与车轮<span class="live-badge">实时</span>
+            </div>
+            <div class="steering-visual">
+              <div class="wheel-tick top"></div>
+              <div class="wheel-tick left"></div>
+              <div class="wheel-tick right"></div>
+              <span class="wheel-label left">L</span
+              ><span class="wheel-label right">R</span
+              ><svg
+                class="steering-wheel"
+                id="steering-wheel"
+                viewBox="0 0 160 160"
+                aria-label="方向盘角度"
+              >
+                <defs>
+                  <linearGradient
+                    id="wheel-gradient"
+                    x1="0"
+                    x2="1"
+                    y1="0"
+                    y2="1"
+                  >
+                    <stop stop-color="#394a53" />
+                    <stop offset="1" stop-color="#1f2c34" />
+                  </linearGradient>
+                </defs>
+                <circle
+                  cx="80"
+                  cy="80"
+                  r="61"
+                  fill="none"
+                  stroke="#e3e9e9"
+                  stroke-width="20"
+                />
+                <circle
+                  cx="80"
+                  cy="80"
+                  r="60"
+                  fill="none"
+                  stroke="url(#wheel-gradient)"
+                  stroke-width="15"
+                />
+                <path
+                  d="m23 65 44 8m70-8-44 8m-13 9v54"
+                  fill="none"
+                  stroke="#34434b"
+                  stroke-width="14"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M55 69q25-11 50 0l-5 27q-20 10-40 0Z"
+                  fill="url(#wheel-gradient)"
+                  stroke="#536169"
+                  stroke-width="1.5"
+                />
+                <circle
+                  cx="80"
+                  cy="82"
+                  r="9"
+                  fill="none"
+                  stroke="#acbbb8"
+                  stroke-width="1.5"
+                />
+                <path d="M76 20h8" stroke="#68c3a9" stroke-width="5" />
+              </svg>
+              <div class="wheel-center-angle">
+                <strong id="wheel-angle">0°</strong><span>方向盘转角</span>
+              </div>
+            </div>
+            <div class="front-wheels">
+              <div class="axle-diagram">
+                <div class="mini-wheel" id="left-wheel"></div>
+                <span></span>
+                <div class="mini-wheel" id="right-wheel"></div>
+              </div>
+              <div class="wheel-values">
+                <span>左前轮 <strong id="left-angle">0°</strong></span
+                ><span>右前轮 <strong id="right-angle">0°</strong></span>
+              </div>
+            </div>
+            <p class="steering-note">转弯时，内侧前轮比外侧转得更多。</p>
+          </section>
+          <section class="insight-card">
+            <div class="insight-heading">
+              <span class="pulse-dot"></span>此刻，车辆在做什么？
+            </div>
+            <h2 id="insight-title">从转动方向盘开始</h2>
+            <p id="insight-text">
+              按 A / D 观察前轮转向，再按 W /
+              S，看看同样的方向如何影响前进和倒车。
+            </p>
+            <div id="radius-stat" class="radius-stat">
+              <span>后轴中心转弯半径</span><strong id="radius-value">∞</strong>
+            </div>
+          </section>
+          <section class="lesson-card">
+            <div class="section-heading">
+              练习路线<span id="lesson-count">3 个小步骤</span>
+            </div>
+            <ol id="lesson-list"></ol>
+            <button id="principles-button" class="text-button">
+              为什么车头会向外摆？<svg><use href="#i-arrow" /></svg>
+            </button>
+          </section>
+        </aside>
+      </div>
+      <footer>
+        <span
+          ><svg><use href="#i-info" /></svg
+          >本工具用于理解低速运动几何，不模拟路况、轮胎打滑和车辆盲区，不能替代教练指导与实车训练。</span
+        ><span class="footer-wordmark">TAKE IT SLOW. FIND YOUR FLOW.</span>
+      </footer>
+    </main>
+    <dialog id="guide-dialog" aria-labelledby="guide-title">
+      <button
+        class="dialog-close icon-button"
+        id="close-guide"
+        aria-label="关闭指南"
+      >
+        <svg><use href="#i-close" /></svg>
+      </button>
+      <div class="eyebrow">YOUR FIRST DRIVE</div>
+      <h2 id="guide-title">先认识方向，再开始练习。</h2>
+      <p class="dialog-intro">
+        把这里当成一张会动的汽车原理图。慢一点，观察比停进去更重要。
+      </p>
+      <div class="guide-grid">
+        <section>
+          <h3>
+            <svg><use href="#i-keyboard" /></svg>键盘就是你的驾驶台
+          </h3>
+          <dl>
+            <div>
+              <dt><kbd>W</kbd> / <kbd>↑</kbd></dt>
+              <dd>按住前进</dd>
+            </div>
+            <div>
+              <dt><kbd>S</kbd> / <kbd>↓</kbd></dt>
+              <dd>按住倒车，行进中先制动再换向</dd>
+            </div>
+            <div>
+              <dt><kbd>A</kbd><kbd>D</kbd> / <kbd>←</kbd><kbd>→</kbd></dt>
+              <dd>按住逐渐打方向，松手保持转角</dd>
+            </div>
+            <div>
+              <dt><kbd>C</kbd></dt>
+              <dd>前轮回正，车身不会自动摆正</dd>
+            </div>
+            <div>
+              <dt><kbd>SPACE</kbd></dt>
+              <dd>刹车；松开前进 / 倒车也会减速</dd>
+            </div>
+            <div>
+              <dt><kbd>P</kbd> / <kbd>R</kbd></dt>
+              <dd>暂停 / 重置当前练习</dd>
+            </div>
+          </dl>
+        </section>
+        <section class="guide-principles">
+          <h3>
+            <svg><use href="#i-bulb" /></svg>三个值得带走的原理
+          </h3>
+          <ol>
+            <li>
+              <strong>倒车看车尾，方向以车辆为准</strong>
+              <p>
+                倒车右打方向，车尾向车辆右侧走，车头向左侧摆出。不是屏幕的右边。
+              </p>
+            </li>
+            <li>
+              <strong>后轮会“抄近路”</strong>
+              <p>
+                转弯时后轮轨迹位于同侧前轮轨迹内侧。车身、前后悬也会扫过额外空间。
+              </p>
+            </li>
+            <li>
+              <strong>回正前轮 ≠ 摆正车身</strong>
+              <p>
+                方向回正后，车只会沿当前车身方向直行；要改变车身朝向，需要转向并移动。
+              </p>
+            </li>
+          </ol>
+        </section>
+      </div>
+      <div class="model-disclaimer">
+        <strong>模型边界</strong
+        >采用后轴中心运动学自行车模型，前轮按阿克曼几何显示。预测线表示保持当前转角时的轮迹，不是车身安全边界，也不保证无碰撞。仅适用于低速原理学习。触碰障碍物或场地边界会停止移动；离开窗口会自动暂停。实车请由教练指导，在安全合法场地练习。
+      </div>
+      <button id="start-button" class="button primary">
+        明白了，开始练习<svg><use href="#i-arrow" /></svg>
+      </button>
+    </dialog>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

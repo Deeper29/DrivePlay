@@ -35,11 +35,56 @@ test("removed promotional sections leave the practice controls intact", () => {
   }
   for (const retained of [
     'class="workspace"',
-    'class="model-badge"',
+    'class="steering-card"',
+    'class="lesson-card"',
     'id="guide-button"',
     'id="scene"',
   ]) {
     assert.ok(html.includes(retained));
+  }
+});
+
+test("practice surface omits removed decorations and duplicate help entry", () => {
+  for (const removed of [
+    'class="model-badge"',
+    'class="vehicle-spec"',
+    'class="insight-card"',
+    'class="tip-card"',
+    'id="principles-button"',
+    'id="radius-value"',
+    "<footer>",
+    "为什么车头会向外摆？",
+    "TAKE IT SLOW. FIND YOUR FLOW.",
+  ]) {
+    assert.ok(!html.includes(removed), `Removed UI returned: ${removed}`);
+  }
+  assert.equal((html.match(/id="guide-button"/g) || []).length, 1);
+});
+
+test("the existing intuition appears once and only inside the operating guide", () => {
+  const guide = html.match(
+    /<dialog\b[^>]*id="guide-dialog"[^>]*>([\s\S]*?)<\/dialog>/,
+  )?.[1];
+  assert.ok(guide);
+  for (const content of [
+    "一个重要的直觉",
+    "车尾往哪边走",
+    "就往哪边打方向。",
+    "这里的左右，始终以车辆为参照。",
+  ]) {
+    assert.equal(html.split(content).length - 1, 1);
+    assert.ok(guide.includes(content));
+  }
+  assert.equal((guide.match(/<li>/g) || []).length, 3);
+});
+
+test("static JavaScript DOM references all have live page elements", async () => {
+  const app = await readFile(new URL("app.js", root), "utf8");
+  const ids = new Set(
+    [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]),
+  );
+  for (const match of app.matchAll(/\$\(["']([^"']+)["']\)/g)) {
+    assert.ok(ids.has(match[1]), `Dangling DOM reference: ${match[1]}`);
   }
 });
 

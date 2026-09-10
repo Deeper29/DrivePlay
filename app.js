@@ -663,37 +663,6 @@ function selectScenario(id, announce = true) {
   draw();
   if (announce) showToast("按住 W / S 移动，A / D 打方向");
 }
-function insight() {
-  const a = degrees(state.steer),
-    speed = state.speed;
-  if (Math.abs(a) < 0.6) {
-    if (Math.abs(speed) < 0.05)
-      return [
-        "从转动方向盘开始",
-        "按 A / D 观察前轮转向，再按 W / S，看看同样的方向如何影响前进和倒车。",
-      ];
-    return [
-      speed < 0 ? "前轮回正，沿车身方向倒车" : "前轮回正，沿车身方向前进",
-      "回正的是前轮，不是车身。车辆会沿当前朝向直行；想调整车身角度，需要转向并移动。",
-    ];
-  }
-  const dir = a > 0 ? "右" : "左",
-    opposite = a > 0 ? "左" : "右";
-  if (Math.abs(speed) < 0.05)
-    return [
-      `前轮向${dir}，车身暂时不动`,
-      `方向已保持。按 S 倒车，车尾向车辆${dir}侧走；按 W 前进，车头向${dir}转。虚线是保持当前转角的预测轮迹。`,
-    ];
-  if (speed < 0)
-    return [
-      `倒车${dir}打，车尾向${dir}`,
-      `车尾向车辆${dir}侧走，车头向${opposite}侧摆出。注意车头外侧的障碍物；屏幕上的左右会随车身朝向改变。`,
-    ];
-  return [
-    `前进${dir}打，车头向${dir}`,
-    `前轮带动车头向${dir}转，后轮从更内侧通过。留意内轮差，车尾悬在开始转弯时也会向外摆。`,
-  ];
-}
 function updateUI() {
   const steering = degrees(state.steer),
     wa = wheelAngles(state.steer),
@@ -721,17 +690,10 @@ function updateUI() {
     `${angle < -0.5 ? "−" : angle > 0.5 ? "+" : ""}${Math.round(Math.abs(angle))}°`;
   $("left-angle").textContent = angleLabel(degrees(wa.left));
   $("right-angle").textContent = angleLabel(degrees(wa.right));
-  $("radius-value").textContent =
-    Math.abs(steering) < 0.1
-      ? "∞"
-      : `${Math.abs(CAR.wheelbase / Math.tan(state.steer)).toFixed(1)} m`;
   $("alignment-feedback").hidden = !scenario.target;
   if (scenario.target)
     $("alignment-angle").textContent =
       `${Math.abs(degrees(angleDifference(state.heading, scenario.target.heading))).toFixed(1)}°`;
-  const [title, explanation] = insight();
-  $("insight-title").textContent = title;
-  $("insight-text").textContent = explanation;
 }
 function recordTrails() {
   if (
@@ -922,7 +884,6 @@ function closeGuide() {
   $("guide-dialog").close();
 }
 $("guide-button").addEventListener("click", openGuide);
-$("principles-button").addEventListener("click", openGuide);
 $("close-guide").addEventListener("click", closeGuide);
 $("start-button").addEventListener("click", closeGuide);
 $("guide-dialog").addEventListener("close", () => {

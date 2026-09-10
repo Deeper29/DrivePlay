@@ -96,12 +96,7 @@ a {
   font-weight: 450;
   white-space: nowrap;
 }
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-shrink: 0;
-}
+
 .brand-mark {
   position: relative;
   width: 40px;
@@ -126,8 +121,7 @@ a {
   background: #98d7bb;
   border-radius: 2px;
 }
-.live-dot,
-.pulse-dot {
+.live-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -181,33 +175,9 @@ main {
   font-weight: 650;
   letter-spacing: 2px;
 }
-.model-badge {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 11px 17px;
-  background: #f0f3f3;
-  border: 1px solid #e9eded;
-  border-radius: 9px;
-  font-size: 11px;
-  color: #60756b;
-}
-.model-badge > svg {
-  width: 26px;
-  height: 26px;
-  stroke: #688477;
-  stroke-width: 1.4;
-  fill: none;
-}
-.model-badge small {
-  display: block;
-  color: #97a29c;
-  font-size: 9px;
-  letter-spacing: 0.6px;
-  margin-top: 5px;
-}
+
 .workspace {
-  margin-top: 26px;
+  margin: 26px 0;
   display: grid;
   grid-template-columns: 216px minmax(0, 1fr) 258px;
   gap: 20px;
@@ -433,67 +403,7 @@ input:checked + .switch:after {
 .slow-setting input {
   right: 11px;
 }
-.tip-card {
-  padding: 17px 15px;
-  background: #f1f2e9;
-  border: 1px solid #e9ebde;
-  border-radius: 10px;
-  margin-top: 24px;
-}
-.tip-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10px;
-  color: #848561;
-  font-weight: 550;
-}
-.tip-title svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: #92926c;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-.tip-card p {
-  font-size: 12px;
-  line-height: 1.95;
-  color: #73755e;
-  margin: 10px 0;
-}
-.tip-card strong {
-  font-weight: 600;
-  color: #676c49;
-}
-.tip-card > span:last-child {
-  font-size: 9px;
-  color: #a0a18c;
-  line-height: 1.7;
-  display: block;
-}
-.vehicle-spec {
-  margin-top: 22px;
-  font-size: 9px;
-  color: #a0a99f;
-  padding: 0 3px;
-}
-.vehicle-spec > strong {
-  float: right;
-  font-size: 9px;
-  color: #859285;
-  font-weight: 450;
-}
-.vehicle-spec > div {
-  display: flex;
-  gap: 14px;
-  border-top: 1px solid var(--border);
-  padding-top: 10px;
-  margin-top: 10px;
-  font-size: 8px;
-  font-family: Inter, sans-serif;
-  letter-spacing: 0.3px;
-}
+
 .simulator {
   background: white;
   border: 1px solid #e0e5e1;
@@ -983,53 +893,7 @@ kbd {
   margin: 13px 0 0;
   padding-top: 11px;
 }
-.insight-card {
-  border-radius: 10px;
-  background: #eaf2ec;
-  border: 1px solid #dce9de;
-  padding: 16px 17px;
-}
-.insight-heading {
-  font-size: 10px;
-  color: #729780;
-  display: flex;
-  gap: 7px;
-  align-items: center;
-}
-.pulse-dot {
-  width: 5px;
-  height: 5px;
-  background: #86ab8b;
-}
-.insight-card h2 {
-  font-size: 13px;
-  letter-spacing: 0.3px;
-  color: #37684b;
-  font-weight: 550;
-  margin: 13px 0 7px;
-}
-.insight-card p {
-  font-size: 10px;
-  line-height: 1.9;
-  color: #7b9581;
-  margin: 0;
-  min-height: 56px;
-}
-.radius-stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #d9e6d9;
-  padding-top: 10px;
-  margin-top: 12px;
-  font-size: 9px;
-  color: #8aa28c;
-}
-.radius-stat strong {
-  font-size: 13px;
-  color: #587d5f;
-  font-weight: 500;
-}
+
 .lesson-card {
   padding-bottom: 12px;
 }
@@ -1127,42 +991,7 @@ kbd {
   width: 13px;
   height: 13px;
 }
-.lesson-card > .text-button {
-  border-top: 1px solid #eaf0e7;
-  margin-top: 10px;
-  width: 100%;
-  padding-top: 12px;
-  padding-bottom: 0;
-}
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 21px 1px 22px;
-  color: #a4aea5;
-  font-size: 8px;
-  line-height: 1.8;
-}
-footer > span:first-child {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-footer svg {
-  width: 12px;
-  height: 12px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  flex-shrink: 0;
-}
-.footer-wordmark {
-  font-size: 7px;
-  letter-spacing: 1.2px;
-  white-space: nowrap;
-  color: #afb8b1;
-}
+
 .toast {
   position: absolute;
   bottom: 58px;
@@ -1462,18 +1291,12 @@ dialog > .primary {
   .lesson-card li > button {
     font-size: 11px;
   }
-  .lesson-card li p,
-  .insight-card p {
+  .lesson-card li p {
     font-size: 11px;
   }
-  .insight-card p {
-    min-height: 62px;
-  }
+
   .steering-note {
     font-size: 10px;
-  }
-  .vehicle-spec {
-    margin-top: 29px;
   }
 }
 @media (max-width: 1250px) {
@@ -1558,15 +1381,6 @@ dialog > .primary {
   .canvas-wrap {
     min-height: 470px;
   }
-  .tip-card {
-    padding: 14px 12px;
-  }
-  .vehicle-spec {
-    font-size: 8px;
-  }
-  .vehicle-spec > strong {
-    font-size: 8px;
-  }
 }
 @media (max-width: 1050px) {
   .workspace {
@@ -1575,7 +1389,7 @@ dialog > .primary {
   .right-sidebar {
     grid-column: 1/-1;
     display: grid;
-    grid-template-columns: 1fr 1fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     align-items: start;
   }
   .steering-card {
@@ -1609,17 +1423,12 @@ dialog > .primary {
   .front-wheels {
     display: none;
   }
-  .insight-card p {
-    min-height: 80px;
-  }
+
   .lesson-card {
     min-height: 260px;
   }
   .canvas-wrap {
     height: 540px;
-  }
-  .footer-wordmark {
-    display: none;
   }
 }
 @media (max-width: 700px) {
@@ -1642,9 +1451,7 @@ dialog > .primary {
     font-size: 8px;
     letter-spacing: 0.15px;
   }
-  .header-actions {
-    gap: 0;
-  }
+
   .guide-button {
     font-size: 10px;
     padding: 8px 10px;
@@ -1659,9 +1466,7 @@ dialog > .primary {
   main {
     padding: 0 14px;
   }
-  .model-badge {
-    display: none;
-  }
+
   .workspace {
     display: flex;
     flex-direction: column;
@@ -1702,9 +1507,7 @@ dialog > .primary {
   .scenario-number,
   .visualization-heading,
   .settings,
-  .slow-setting,
-  .tip-card,
-  .vehicle-spec {
+  .slow-setting {
     display: none;
   }
   .simulator {
@@ -1806,7 +1609,7 @@ dialog > .primary {
   }
   .right-sidebar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 12px;
     width: 100%;
   }
@@ -1823,22 +1626,7 @@ dialog > .primary {
   .steering-note {
     font-size: 8px;
   }
-  .insight-card {
-    padding: 15px 12px;
-  }
-  .insight-heading {
-    font-size: 9px;
-  }
-  .insight-card h2 {
-    font-size: 12px;
-  }
-  .insight-card p {
-    font-size: 10px;
-    min-height: 99px;
-  }
-  .radius-stat {
-    font-size: 8px;
-  }
+
   .lesson-card {
     grid-column: 1/-1;
     min-height: 0;
@@ -1856,9 +1644,7 @@ dialog > .primary {
   .section-heading {
     font-size: 10px;
   }
-  .lesson-card > .text-button {
-    font-size: 10px;
-  }
+
   .scene-legend {
     font-size: 7px;
     gap: 8px;
@@ -1870,18 +1656,7 @@ dialog > .primary {
     right: 10px;
     bottom: 12px;
   }
-  footer {
-    padding-top: 15px;
-    font-size: 8px;
-    align-items: start;
-    line-height: 1.9;
-  }
-  footer > span:first-child {
-    align-items: flex-start;
-  }
-  footer svg {
-    margin-top: 3px;
-  }
+
   .guide-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -1929,8 +1704,6 @@ dialog > .primary {
 }
 .brand small,
 .eyebrow,
-.model-badge,
-.model-badge small,
 .section-heading > span,
 .scenario small,
 .scenario.selected small,
@@ -1938,8 +1711,6 @@ dialog > .primary {
 .scenario.selected .scenario-number,
 .setting small,
 .slow-setting small,
-.vehicle-spec,
-.vehicle-spec > strong,
 .scene-caption,
 .dock-label,
 .speed-readout > div > span,
@@ -1952,15 +1723,9 @@ kbd,
 .wheel-values,
 .wheel-values strong,
 .steering-note,
-.insight-heading,
-.insight-card p,
-.radius-stat,
-.radius-stat strong,
 .lesson-card li > button,
 .lesson-card li p,
 .text-button,
-footer,
-.footer-wordmark,
 dialog .dialog-intro,
 .guide-grid dt,
 .guide-grid dd,
@@ -1993,17 +1758,10 @@ dialog .dialog-intro,
 .guide-button .key-hint {
   color: #566c5c;
 }
-.tip-title,
-.tip-card > span:last-child {
-  color: #686b4c;
-}
-.tip-card p {
-  color: #686b4c;
-}
+
 .model-disclaimer strong {
   color: #536a48;
 }
-.insight-card p,
 .lesson-card li p {
   font-size: 11px;
 }
@@ -2016,9 +1774,7 @@ dialog .dialog-intro,
 .slow-setting .turtle-icon {
   display: none;
 }
-.vehicle-spec > div {
-  font-family: inherit;
-}
+
 .alignment-feedback {
   position: absolute;
   left: 19px;

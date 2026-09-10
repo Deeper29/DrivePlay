@@ -86,21 +86,9 @@
           <small>可视化驾驶与泊车原理练习</small>
         </div>
       </a>
-      <div class="header-actions">
-        <div class="model-badge">
-          <svg><use href="#i-car" /></svg>
-          <span
-            >前轮转向 · 低速几何模型<small
-              >真实比例车辆 / 可视化运动轨迹</small
-            ></span
-          >
-        </div>
-        <button class="button guide-button" id="guide-button">
-          <svg><use href="#i-book" /></svg>操作指南<span class="key-hint"
-            >?</span
-          >
-        </button>
-      </div>
+      <button class="button guide-button" id="guide-button">
+        <svg><use href="#i-book" /></svg>操作指南<span class="key-hint">?</span>
+      </button>
     </header>
     <main>
       <div class="workspace">
@@ -187,17 +175,6 @@
               checked
               role="switch" /><span class="switch"></span
           ></label>
-          <div class="tip-card">
-            <span class="tip-title"
-              ><svg><use href="#i-bulb" /></svg>一个重要的直觉</span
-            >
-            <p>倒车时，想让<strong>车尾往哪边走</strong>，就往哪边打方向。</p>
-            <span>这里的左右，始终以车辆为参照。</span>
-          </div>
-          <div class="vehicle-spec">
-            <span>练习车辆</span><strong>标准小型轿车</strong>
-            <div><span>车长 4.46 m</span><span>轴距 2.70 m</span></div>
-          </div>
         </aside>
         <section class="simulator" aria-label="交互式泊车模拟器">
           <div class="scene-topbar">
@@ -406,36 +383,14 @@
             </div>
             <p class="steering-note">转弯时，内侧前轮比外侧转得更多。</p>
           </section>
-          <section class="insight-card">
-            <div class="insight-heading">
-              <span class="pulse-dot"></span>此刻，车辆在做什么？
-            </div>
-            <h2 id="insight-title">从转动方向盘开始</h2>
-            <p id="insight-text">
-              按 A / D 观察前轮转向，再按 W /
-              S，看看同样的方向如何影响前进和倒车。
-            </p>
-            <div id="radius-stat" class="radius-stat">
-              <span>后轴中心转弯半径</span><strong id="radius-value">∞</strong>
-            </div>
-          </section>
           <section class="lesson-card">
             <div class="section-heading">
               练习路线<span id="lesson-count">3 个小步骤</span>
             </div>
             <ol id="lesson-list"></ol>
-            <button id="principles-button" class="text-button">
-              为什么车头会向外摆？<svg><use href="#i-arrow" /></svg>
-            </button>
           </section>
         </aside>
       </div>
-      <footer>
-        <span
-          ><svg><use href="#i-info" /></svg
-          >本工具用于理解低速运动几何，不模拟路况、轮胎打滑和车辆盲区，不能替代教练指导与实车训练。</span
-        ><span class="footer-wordmark">TAKE IT SLOW. FIND YOUR FLOW.</span>
-      </footer>
     </main>
     <dialog id="guide-dialog" aria-labelledby="guide-title">
       <button
@@ -488,10 +443,9 @@
           </h3>
           <ol>
             <li>
-              <strong>倒车看车尾，方向以车辆为准</strong>
-              <p>
-                倒车右打方向，车尾向车辆右侧走，车头向左侧摆出。不是屏幕的右边。
-              </p>
+              <strong>一个重要的直觉</strong>
+              <p>倒车时，想让<strong>车尾往哪边走</strong>，就往哪边打方向。</p>
+              <p>这里的左右，始终以车辆为参照。</p>
             </li>
             <li>
               <strong>后轮会“抄近路”</strong>

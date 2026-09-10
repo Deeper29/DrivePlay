@@ -8,6 +8,7 @@ export const CAR = Object.freeze({
   steeringRatio: 15,
 });
 export const WORLD = Object.freeze({ width: 26, height: 22 });
+export const WORLD_MARGIN = 0.55;
 export const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 export const degrees = (radians) => (radians * 180) / Math.PI;
 export const angleDifference = (a, b) =>
@@ -74,14 +75,12 @@ export function polygonsOverlap(a, b) {
 
 export function collides(state, obstacles, world = WORLD) {
   const points = carPolygon(state);
+  const left = (world.x || 0) + WORLD_MARGIN,
+    top = (world.y || 0) + WORLD_MARGIN,
+    right = (world.x || 0) + world.width - WORLD_MARGIN,
+    bottom = (world.y || 0) + world.height - WORLD_MARGIN;
   if (
-    points.some(
-      (p) =>
-        p.x < 0.55 ||
-        p.y < 0.55 ||
-        p.x > world.width - 0.55 ||
-        p.y > world.height - 0.55,
-    )
+    points.some((p) => p.x < left || p.y < top || p.x > right || p.y > bottom)
   )
     return true;
   return obstacles.some((obstacle) =>
@@ -121,7 +120,7 @@ export function advance(state, distance) {
   };
 }
 
-export function step(state, input, dt, obstacles = []) {
+export function step(state, input, dt, obstacles = [], world = WORLD) {
   let next = { ...state };
   const steeringRate = (38 * Math.PI) / 180;
   if (input.center) next.steer = approach(next.steer, 0, steeringRate * dt * 2);
@@ -146,7 +145,8 @@ export function step(state, input, dt, obstacles = []) {
   }
   next.speed = approach(next.speed, target, acceleration * dt);
   const moved = advance(next, ((state.speed + next.speed) / 2) * dt);
-  if (collides(moved, obstacles)) return { ...next, speed: 0, collision: true };
+  if (collides(moved, obstacles, world))
+    return { ...next, speed: 0, collision: true };
   return { ...moved, collision: false };
 }
 

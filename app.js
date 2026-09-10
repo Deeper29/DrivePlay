@@ -11,6 +11,7 @@ import {
   step,
   isParked,
 } from "./physics.js";
+import { fitViewport } from "./viewport.js";
 
 const $ = (id) => document.getElementById(id);
 const canvas = $("scene"),
@@ -22,7 +23,8 @@ let width = 0,
   height = 0,
   scale = 1,
   offsetX = 0,
-  offsetY = 0;
+  offsetY = 0,
+  world = WORLD;
 let paused = false,
   completed = false,
   recentering = false,
@@ -93,33 +95,31 @@ function drawArrow(x, y, heading, color = "#bdc8bc", size = 1) {
   ctx.restore();
 }
 function drawGround() {
-  roundedRect(0.15, 0.15, 25.7, 21.7, 0.6, "#d2dcd0");
-  roundedRect(0.48, 0.48, 25.04, 21.04, 0.3, "#e1e6df", "#c6d1c4", 0.04);
+  const left = -offsetX / scale,
+    right = (width - offsetX) / scale,
+    top = -offsetY / scale,
+    bottom = (height - offsetY) / scale;
   ctx.save();
   ctx.globalAlpha = 0.22;
-  for (let x = 1; x < 26; x++)
+  for (let x = Math.ceil(left); x < right; x++)
     line(
       [
-        { x, y: 0.55 },
-        { x, y: 21.45 },
+        { x, y: top },
+        { x, y: bottom },
       ],
       "#bac8bb",
       0.018,
     );
-  for (let y = 1; y < 22; y++)
+  for (let y = Math.ceil(top); y < bottom; y++)
     line(
       [
-        { x: 0.55, y },
-        { x: 25.45, y },
+        { x: left, y },
+        { x: right, y },
       ],
       "#bac8bb",
       0.018,
     );
   ctx.restore();
-  for (let y = 1.1; y < 21; y += 0.6) {
-    roundedRect(0.2, y, 0.2, 0.34, 0.025, "#e8eee2");
-    roundedRect(25.6, y, 0.2, 0.34, 0.025, "#e8eee2");
-  }
   if (scenarioId === "reverse") {
     const centers = [4.6, 8, 11.4, 14.8, 18.2, 21.6];
     centers.forEach((x, i) => {
@@ -151,8 +151,8 @@ function drawGround() {
     });
     line(
       [
-        { x: 2, y: 11.1 },
-        { x: 24, y: 11.1 },
+        { x: left, y: 11.1 },
+        { x: right, y: 11.1 },
       ],
       "#c7d1c4",
       0.055,
@@ -211,16 +211,16 @@ function drawGround() {
     );
     line(
       [
-        { x: 2.5, y: 11 },
-        { x: 23.5, y: 11 },
+        { x: left, y: 11 },
+        { x: right, y: 11 },
       ],
       "#d1dacf",
       0.04,
     );
     line(
       [
-        { x: 13, y: 2.5 },
-        { x: 13, y: 19.5 },
+        { x: 13, y: top },
+        { x: 13, y: bottom },
       ],
       "#d1dacf",
       0.04,
@@ -547,7 +547,7 @@ function drawTurningCenter() {
 function draw() {
   ctx.setTransform(devicePixelRatio || 1, 0, 0, devicePixelRatio || 1, 0, 0);
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#e8ede6";
+  ctx.fillStyle = "#e1e6df";
   ctx.fillRect(0, 0, width, height);
   ctx.save();
   ctx.translate(offsetX, offsetY);
@@ -555,9 +555,6 @@ function draw() {
   drawGround();
   drawTarget();
   ctx.save();
-  ctx.beginPath();
-  ctx.rect(0.55, 0.55, 24.9, 20.9);
-  ctx.clip();
   if (options.trails)
     traces.forEach((points, i) =>
       line(points, i < 2 ? "#739fb699" : "#c0936999", 0.049),
@@ -585,14 +582,21 @@ function draw() {
 }
 function resize() {
   const box = canvas.parentElement.getBoundingClientRect();
+  if (box.width <= 0 || box.height <= 0) return;
   width = box.width;
   height = box.height;
   const dpr = devicePixelRatio || 1;
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
-  scale = Math.min((width - 24) / WORLD.width, (height - 70) / WORLD.height);
-  offsetX = (width - WORLD.width * scale) / 2;
-  offsetY = (height - WORLD.height * scale) / 2;
+  const panel = document
+    .querySelector(".steering-card")
+    .getBoundingClientRect();
+  ({ scale, offsetX, offsetY, world } = fitViewport(width, height, state, {
+    x: panel.left - box.left,
+    y: panel.top - box.top,
+    width: panel.width,
+    height: panel.height,
+  }));
   draw();
 }
 new ResizeObserver(resize).observe(canvas.parentElement);
@@ -649,7 +653,7 @@ function selectScenario(id, announce = true) {
     button.setAttribute("aria-pressed", String(selected));
   });
   updateUI();
-  draw();
+  resize();
   if (announce) showToast("按住 W / S 移动，A / D 打方向");
 }
 function updateUI() {
@@ -731,7 +735,7 @@ function frame(time) {
     const steps = Math.max(1, Math.ceil(dt / (1 / 120)));
     for (let i = 0; i < steps; i++) {
       const previous = state;
-      state = step(state, input, dt / steps, scenario.obstacles);
+      state = step(state, input, dt / steps, scenario.obstacles, world);
       collisionCooldown = Math.max(0, collisionCooldown - dt / steps);
       if (state.collision && collisionCooldown === 0) {
         collisions++;

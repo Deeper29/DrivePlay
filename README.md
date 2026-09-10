@@ -55,6 +55,8 @@ npm test
 
 ### 练习内容
 
+地图路面铺满练习画布，车辆、车位和轨迹采用同一比例缩放。可驾驶边界随画布尺寸扩展，不再受旧的内部矩形限制；调整窗口大小时会移动视野以保留当前车辆的位置，不改变车辆坐标、尺寸或停车判定。
+
 - **倒车入库**：从车头朝右的初始位置，观察右打倒车时车尾进入下方车位、车头向外摆动的过程。
 - **侧方停车**：在右侧两辆车之间倒入车位，用反打方向把车头收进来，再前后调整。
 - **自由探索**：打开转弯圆心，固定转角分别前进与倒车，比较四条车轮轨迹。
@@ -85,6 +87,7 @@ index.html              页面与操作指南
 styles.css              响应式布局与视觉样式
 app.js                  Canvas 绘制、输入与练习流程
 physics.js              独立低速运动学和碰撞模块
+viewport.js             等比例缩放、视野与画布边界适配
 server.mjs              无依赖本地静态服务器
 package.json            启动与测试命令
 assets/driveplay-icon.png 用户提供的产品图标
@@ -92,6 +95,7 @@ assets/driveplay-icon.png 用户提供的产品图标
 tests/physics.test.js    运动模型回归测试
 tests/scenarios.test.js  场景可完成性与帧率独立性测试
 tests/site.test.js       静态资源与子路径兼容性测试
+tests/viewport.test.js   地图缩放、可见性与画布边界测试
 ```
 
-也可将 `index.html`、`styles.css`、`app.js`、`physics.js` 和 `assets/` 目录放到其他静态网站托管服务部署。页面不使用账户、数据库、分析埋点或本地存储。Google Fonts 是可选字体请求，无法访问时使用系统中文字体，不影响驾驶功能。
+也可将 `index.html`、`styles.css`、`app.js`、`physics.js`、`viewport.js` 和 `assets/` 目录放到其他静态网站托管服务部署。页面不使用账户、数据库、分析埋点或本地存储。Google Fonts 是可选字体请求，无法访问时使用系统中文字体，不影响驾驶功能。

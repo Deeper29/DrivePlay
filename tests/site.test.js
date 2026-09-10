@@ -209,7 +209,7 @@ test("site assets and home link remain inside root and project Pages deployments
 
 test("every local page resource and module import exists", async () => {
   for (const resource of resources) await access(new URL(resource, root));
-  for (const module of ["app.js", "physics.js"]) {
+  for (const module of ["app.js", "physics.js", "viewport.js"]) {
     const source = await readFile(new URL(module, root), "utf8");
     for (const match of source.matchAll(/from\s+["']([^"']+)["']/g)) {
       assert.ok(match[1].startsWith("./"));

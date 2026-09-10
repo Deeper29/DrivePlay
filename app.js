@@ -38,7 +38,7 @@ let toastTimer,
 const keys = new Set(),
   touch = new Set(),
   traces = [[], [], [], []];
-const options = { prediction: true, trails: true, center: false, slow: true };
+const options = { prediction: true, trails: true, center: false, slow: false };
 const offsets = [
   [-CAR.track / 2, CAR.wheelbase],
   [CAR.track / 2, CAR.wheelbase],

@@ -8,6 +8,16 @@ const resources = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((value) => !value.startsWith("#") && !/^[a-z]+:/i.test(value));
 
+test("normal speed is the default in both the UI and input state", async () => {
+  const toggle = html.match(/<input\b[^>]*id="slow-toggle"[^>]*>/)?.[0];
+  assert.ok(toggle);
+  assert.doesNotMatch(toggle, /\bchecked\b/);
+  const app = await readFile(new URL("app.js", root), "utf8");
+  const options = app.match(/const options = \{[^}]+\}/)?.[0];
+  assert.ok(options);
+  assert.match(options, /\bslow:\s*false\b/);
+});
+
 test("product identity is DrivePlay with Chinese positioning", () => {
   assert.match(html, /<title>DrivePlay · 可视化驾驶与泊车原理练习<\/title>/);
   assert.match(html, /<h1>DrivePlay<\/h1>/);

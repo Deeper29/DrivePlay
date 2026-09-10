@@ -105,6 +105,20 @@ test("speed and steering limits hold at fixed timesteps", () => {
   close(s.steer, CAR.maxSteer);
 });
 
+test("normal and slow speed limits apply in both travel directions", () => {
+  for (const [slow, limit] of [
+    [false, 1.65],
+    [true, 0.72],
+  ]) {
+    for (const throttle of [-1, 1]) {
+      let s = { ...initial };
+      for (let i = 0; i < 240; i++) s = step(s, { throttle, slow }, 1 / 120);
+      close(s.speed, throttle * limit);
+      assert.equal(s.collision, false);
+    }
+  }
+});
+
 test("reverse command brakes through zero rather than flipping speed", () => {
   let s = { ...initial, speed: 1 };
   s = step(s, { throttle: -1 }, 0.1);

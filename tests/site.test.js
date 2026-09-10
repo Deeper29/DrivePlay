@@ -8,7 +8,7 @@ const resources = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((value) => !value.startsWith("#") && !/^[a-z]+:/i.test(value));
 
-test("branding, guidance, settings, and state share one sidebar beside the practice area", () => {
+test("branding, guidance, and settings share one sidebar beside the practice area", () => {
   const sidebar = html.match(
     /<aside class="left-sidebar"[^>]*>([\s\S]*?)<\/aside>/,
   )?.[1];
@@ -23,8 +23,9 @@ test("branding, guidance, settings, and state share one sidebar beside the pract
     'id="guide-button"',
     'class="scenario-list"',
     'id="slow-toggle"',
-    'id="steering-wheel"',
-    'id="lesson-list"',
+    'id="prediction-toggle"',
+    'id="trails-toggle"',
+    'id="center-toggle"',
   ])
     assert.ok(sidebar.includes(retained));
   assert.ok(practice.includes('class="simulator"'));
@@ -34,6 +35,57 @@ test("branding, guidance, settings, and state share one sidebar beside the pract
   assert.equal((html.match(/<aside\b/g) || []).length, 1);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(ids.length, new Set(ids).size);
+});
+
+test("the existing wheel module floats inside the right practice canvas", async () => {
+  const sidebar = html.match(/<aside\b[\s\S]*?<\/aside>/)?.[0];
+  const canvas = html.match(
+    /<div\s+class="canvas-wrap"[\s\S]*?<section class="steering-card">([\s\S]*?)<\/section>/,
+  )?.[1];
+  assert.ok(canvas);
+  assert.ok(!sidebar.includes('class="steering-card"'));
+  assert.equal((html.match(/class="steering-card"/g) || []).length, 1);
+  for (const id of [
+    "steering-wheel",
+    "wheel-angle",
+    "left-wheel",
+    "right-wheel",
+    "left-angle",
+    "right-angle",
+  ])
+    assert.ok(canvas.includes(`id="${id}"`));
+  const css = await readFile(new URL("styles.css", root), "utf8");
+  const panel = css.match(/\.steering-card\s*\{([^}]+)\}/)?.[1];
+  assert.match(panel, /position:\s*absolute/);
+  assert.match(panel, /top:\s*18px/);
+  assert.match(panel, /right:\s*18px/);
+  assert.match(panel, /pointer-events:\s*none/);
+});
+
+test("practice routes and their unused bindings and data are removed", async () => {
+  const app = await readFile(new URL("app.js", root), "utf8");
+  const physics = await readFile(new URL("physics.js", root), "utf8");
+  const css = await readFile(new URL("styles.css", root), "utf8");
+  assert.doesNotMatch(
+    html,
+    /练习路线|lesson-card|lesson-list|lesson-count|sidebar-details/,
+  );
+  assert.doesNotMatch(
+    app,
+    /lessonIndex|renderLessons|lesson-list|scenario\.lessons/,
+  );
+  assert.doesNotMatch(physics, /lessons:/);
+  assert.doesNotMatch(css, /\.lesson-|\.sidebar-details/);
+});
+
+test("the practice area has no enclosing card or surrounding padding", async () => {
+  const css = await readFile(new URL("styles.css", root), "utf8");
+  const simulator = css.match(/\.simulator\s*\{([^}]+)\}/)?.[1];
+  assert.match(simulator, /border:\s*0;/);
+  assert.match(simulator, /border-radius:\s*0;/);
+  assert.match(simulator, /box-shadow:\s*none;/);
+  for (const match of css.matchAll(/\.practice-area\s*\{([^}]+)\}/g))
+    assert.doesNotMatch(match[1], /padding:/);
 });
 
 test("the supplied steering-wheel image is used for the logo and favicon", async () => {
@@ -85,7 +137,6 @@ test("removed promotional sections leave the practice controls intact", () => {
   for (const retained of [
     'class="workspace"',
     'class="steering-card"',
-    'class="lesson-card"',
     'id="guide-button"',
     'id="scene"',
   ]) {

@@ -360,10 +360,10 @@ input:checked + .switch:after {
 
 .simulator {
   background: white;
-  border: 1px solid #e0e5e1;
-  border-radius: 13px;
+  border: 0;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 4px 15px #293e2f04;
+  box-shadow: none;
   min-width: 0;
 }
 .scene-topbar {
@@ -693,13 +693,19 @@ kbd {
   color: #adb7ae;
   margin-left: auto;
 }
-
-.steering-card,
-.lesson-card {
+.steering-card {
+  --wheel-size: 128px;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  width: 220px;
+  pointer-events: none;
+  box-shadow: 0 6px 24px #293e2f12;
   border: 1px solid var(--border);
   border-radius: 11px;
   background: white;
-  padding: 17px 18px;
+  padding: 14px;
 }
 .steering-card .section-heading {
   margin: 0;
@@ -714,14 +720,13 @@ kbd {
 }
 .steering-visual {
   position: relative;
-  width: 190px;
-  height: 204px;
+  width: calc(var(--wheel-size) + 28px);
   margin: 3px auto 0;
   padding-top: 5px;
 }
 .steering-wheel {
-  width: 160px;
-  height: 160px;
+  width: var(--wheel-size);
+  height: var(--wheel-size);
   display: block;
   margin: auto;
   filter: drop-shadow(0 5px 4px #2a433515);
@@ -730,7 +735,7 @@ kbd {
 }
 .wheel-label {
   position: absolute;
-  top: 76px;
+  top: calc(var(--wheel-size) / 2);
   font-family: Inter, sans-serif;
   font-size: 9px;
   color: #a4b0a6;
@@ -747,19 +752,19 @@ kbd {
 }
 .wheel-tick.top {
   top: 5px;
-  left: 94px;
+  left: 50%;
   width: 1px;
   height: 6px;
 }
 .wheel-tick.left {
-  top: 81px;
-  left: 13px;
+  top: calc(var(--wheel-size) / 2 + 5px);
+  left: 11px;
   width: 5px;
   height: 1px;
 }
 .wheel-tick.right {
-  top: 81px;
-  right: 13px;
+  top: calc(var(--wheel-size) / 2 + 5px);
+  right: 11px;
   width: 5px;
   height: 1px;
 }
@@ -779,7 +784,8 @@ kbd {
   margin-left: 7px;
 }
 .front-wheels {
-  padding: 0 12px;
+  margin-top: 14px;
+  padding: 0;
 }
 .axle-diagram {
   height: 28px;
@@ -835,85 +841,6 @@ kbd {
   border-top: 1px solid #edf0eb;
   margin: 13px 0 0;
   padding-top: 11px;
-}
-
-.lesson-card {
-  padding-bottom: 12px;
-}
-.lesson-card .section-heading {
-  margin-bottom: 15px;
-}
-.lesson-card .section-heading > span {
-  font-size: 8px;
-  letter-spacing: 0;
-}
-.lesson-card ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.lesson-card li {
-  padding: 0 0 16px 28px;
-  position: relative;
-  cursor: pointer;
-}
-.lesson-card li:last-child {
-  padding-bottom: 5px;
-}
-.lesson-card li:before {
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: 21px;
-  bottom: 4px;
-  width: 1px;
-  background: #e4eae2;
-}
-.lesson-card li:last-child:before {
-  display: none;
-}
-.lesson-step {
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  border: 1px solid #e0e7de;
-  display: grid;
-  place-items: center;
-  font-size: 8px;
-  color: #a0afa2;
-  background: #f7f9f5;
-}
-.lesson-card li.active .lesson-step {
-  color: #fff;
-  background: #458d6b;
-  border-color: #458d6b;
-}
-.lesson-card li > button {
-  border: 0;
-  background: none;
-  padding: 0;
-  display: block;
-  text-align: left;
-  width: 100%;
-  font-size: 10px;
-  font-weight: 500;
-  color: #8d9d90;
-  line-height: 1.6;
-}
-.lesson-card li.active > button {
-  color: #476d51;
-}
-.lesson-card li p {
-  font-size: 9px;
-  line-height: 1.9;
-  color: #9ba99b;
-  margin: 6px 0 0;
-}
-.lesson-card li:not(.active) p {
-  display: none;
 }
 .text-button {
   border: 0;
@@ -1201,37 +1128,6 @@ dialog > .primary {
   .keyboard-bar .arrow-alternative {
     font-size: 9px;
   }
-  .steering-visual {
-    height: 221px;
-    padding-top: 13px;
-  }
-  .steering-wheel {
-    width: 176px;
-    height: 176px;
-  }
-  .wheel-label {
-    top: 95px;
-  }
-  .wheel-tick.top {
-    top: 14px;
-  }
-  .wheel-tick.left,
-  .wheel-tick.right {
-    top: 98px;
-  }
-  .wheel-center-angle {
-    margin-top: -2px;
-  }
-  .lesson-card li > button {
-    font-size: 11px;
-  }
-  .lesson-card li p {
-    font-size: 11px;
-  }
-
-  .steering-note {
-    font-size: 10px;
-  }
 }
 @media (max-width: 1250px) {
   .scenario {
@@ -1282,16 +1178,6 @@ dialog > .primary {
   .recenter-button svg {
     display: none;
   }
-  .steering-card,
-  .lesson-card {
-    padding: 15px 14px;
-  }
-  .steering-visual {
-    width: 185px;
-  }
-  .wheel-tick.top {
-    left: 92px;
-  }
   .scene-label {
     top: 12px;
     left: 12px;
@@ -1304,43 +1190,6 @@ dialog > .primary {
   .scene-legend {
     left: 12px;
     gap: 9px;
-  }
-}
-@media (max-width: 1050px) {
-  .steering-card {
-    min-height: 260px;
-  }
-  .steering-visual {
-    height: 154px;
-    width: 160px;
-  }
-  .steering-wheel {
-    width: 120px;
-    height: 120px;
-  }
-  .wheel-label {
-    top: 60px;
-  }
-  .wheel-center-angle strong {
-    font-size: 15px;
-  }
-  .wheel-center-angle span {
-    font-size: 8px;
-  }
-  .wheel-tick.top {
-    left: 80px;
-    top: 4px;
-  }
-  .wheel-tick.left,
-  .wheel-tick.right {
-    top: 65px;
-  }
-  .front-wheels {
-    display: none;
-  }
-
-  .lesson-card {
-    min-height: 260px;
   }
 }
 @media (max-width: 700px) {
@@ -1491,35 +1340,6 @@ dialog > .primary {
   .touch-controls {
     display: flex;
   }
-
-  .steering-card {
-    padding: 14px 10px;
-    min-height: 246px;
-  }
-  .steering-visual {
-    width: 142px;
-  }
-  .wheel-tick.top {
-    left: 71px;
-  }
-  .steering-note {
-    font-size: 8px;
-  }
-
-  .lesson-card {
-    grid-column: 1/-1;
-    min-height: 0;
-    padding: 15px;
-  }
-  .lesson-card li > button {
-    font-size: 11px;
-  }
-  .lesson-card li p {
-    font-size: 10px;
-  }
-  .lesson-card .section-heading {
-    font-size: 12px;
-  }
   .section-heading {
     font-size: 10px;
   }
@@ -1602,8 +1422,6 @@ kbd,
 .wheel-values,
 .wheel-values strong,
 .steering-note,
-.lesson-card li > button,
-.lesson-card li p,
 .text-button,
 dialog .dialog-intro,
 .guide-grid dt,
@@ -1622,9 +1440,6 @@ dialog .dialog-intro,
 .section-heading .live-badge {
   color: #516e59;
 }
-.lesson-step {
-  color: #566c5c;
-}
 .gear.neutral {
   color: #566c5c;
 }
@@ -1640,12 +1455,6 @@ dialog .dialog-intro,
 
 .model-disclaimer strong {
   color: #536a48;
-}
-.lesson-card li p {
-  font-size: 11px;
-}
-.lesson-card li > button {
-  font-size: 11px;
 }
 .steering-note {
   font-size: 10px;
@@ -1735,17 +1544,10 @@ dialog .dialog-intro,
   scrollbar-width: thin;
   scrollbar-color: #d4dfd7 transparent;
 }
-.sidebar-details {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 24px;
-}
 .practice-area {
   min-width: 0;
   min-height: 0;
   display: flex;
-  padding: 24px;
 }
 .practice-area > .simulator {
   flex: 1;
@@ -1758,6 +1560,7 @@ dialog .dialog-intro,
 }
 .canvas-wrap {
   position: relative;
+  container-type: inline-size;
   flex: 1;
   min-height: 0;
   background: #e8ece8;
@@ -1773,9 +1576,6 @@ dialog .dialog-intro,
   }
   .sidebar-content {
     padding: 18px 16px;
-  }
-  .practice-area {
-    padding: 16px;
   }
 }
 @media (max-width: 700px) {
@@ -1816,7 +1616,6 @@ dialog .dialog-intro,
   }
   .practice-area {
     order: 2;
-    padding: 0 14px;
   }
   .practice-area > .simulator {
     height: auto;
@@ -1826,11 +1625,59 @@ dialog .dialog-intro,
     height: 350px;
     min-height: 340px;
   }
-  .sidebar-details {
-    order: 3;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    margin: 0 14px 18px;
-    gap: 12px;
+}
+
+.view-label {
+  top: auto;
+  bottom: 46px;
+}
+@container (max-width: 850px) {
+  .steering-card {
+    --wheel-size: 96px;
+    top: 12px;
+    right: 12px;
+    width: 166px;
+    padding: 12px;
+  }
+  .front-wheels {
+    display: none;
+  }
+  .wheel-center-angle strong {
+    font-size: 16px;
+  }
+}
+@container (max-width: 550px) {
+  .steering-card {
+    --wheel-size: 72px;
+    top: 10px;
+    right: 10px;
+    width: 120px;
+    padding: 8px;
+  }
+  .steering-card .section-heading {
+    font-size: 9px;
+  }
+  .steering-card .live-badge {
+    font-size: 7px;
+    padding: 2px 3px;
+  }
+  .wheel-center-angle strong {
+    font-size: 14px;
+  }
+  .wheel-center-angle span {
+    font-size: 7px;
+    margin-left: 3px;
+  }
+  .steering-note {
+    display: none;
+  }
+}
+@container (max-width: 380px) {
+  .steering-card {
+    --wheel-size: 56px;
+    width: 96px;
+  }
+  .steering-visual {
+    width: 100%;
   }
 }

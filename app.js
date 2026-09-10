@@ -29,8 +29,7 @@ let paused = false,
   lastTime = 0,
   parkedTime = 0,
   collisions = 0,
-  collisionCooldown = 0,
-  lessonIndex = 0;
+  collisionCooldown = 0;
 let toastTimer,
   uiTime = 0,
   lastTrail = null,
@@ -622,14 +621,6 @@ function setPaused(value) {
   $("pause-button").innerHTML =
     `<svg><use href="#i-${paused ? "play" : "pause"}"/></svg>`;
 }
-function renderLessons() {
-  $("lesson-list").innerHTML = scenario.lessons
-    .map(
-      (lesson, i) =>
-        `<li class="${i === lessonIndex ? "active" : ""}"><span class="lesson-step">${i + 1}</span><button data-lesson="${i}" aria-expanded="${i === lessonIndex}">${lesson.title}</button><p>${lesson.text}</p></li>`,
-    )
-    .join("");
-}
 function selectScenario(id, announce = true) {
   scenarioId = id;
   scenario = SCENARIOS[id];
@@ -641,7 +632,6 @@ function selectScenario(id, announce = true) {
   recentering = false;
   lastDirection = -1;
   lastTrail = null;
-  lessonIndex = 0;
   traces.forEach((t) => (t.length = 0));
   clearInputs();
   setPaused(false);
@@ -658,7 +648,6 @@ function selectScenario(id, announce = true) {
     button.classList.toggle("selected", selected);
     button.setAttribute("aria-pressed", String(selected));
   });
-  renderLessons();
   updateUI();
   draw();
   if (announce) showToast("按住 W / S 移动，A / D 打方向");
@@ -857,13 +846,6 @@ $("next-button").addEventListener("click", () => {
 $("again-button").addEventListener("click", () => {
   selectScenario(scenarioId);
   $("canvas-wrap").focus({ preventScroll: true });
-});
-$("lesson-list").addEventListener("click", (event) => {
-  const item = event.target.closest("[data-lesson]");
-  if (item) {
-    lessonIndex = Number(item.dataset.lesson);
-    renderLessons();
-  }
 });
 $("fullscreen-button").addEventListener("click", async () => {
   try {

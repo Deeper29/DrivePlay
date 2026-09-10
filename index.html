@@ -178,12 +178,52 @@
               class="switch"
             ></span
           ></label>
-
+        </div>
+      </aside>
+      <main class="practice-area">
+        <section class="simulator" aria-label="交互式泊车模拟器">
+          <div class="scene-topbar">
+            <div>
+              <span class="live-dot"></span
+              ><strong id="scene-title">倒车入库</strong
+              ><span class="scene-divider"></span
+              ><span class="scene-caption">俯视练习场</span>
+            </div>
+            <div class="scene-actions">
+              <button
+                id="pause-button"
+                class="icon-button"
+                aria-label="暂停练习"
+                title="暂停 / 继续（P）"
+              >
+                <svg><use href="#i-pause" /></svg></button
+              ><button
+                id="reset-button"
+                class="icon-button"
+                aria-label="重新开始"
+                title="重新开始（R）"
+              >
+                <svg><use href="#i-reset" /></svg></button
+              ><button
+                id="fullscreen-button"
+                class="icon-button"
+                aria-label="全屏练习场"
+                title="全屏练习场"
+              >
+                <svg><use href="#i-expand" /></svg>
+              </button>
+            </div>
+          </div>
           <div
-            class="sidebar-details"
-            role="group"
-            aria-label="车辆状态和练习提示"
+            class="canvas-wrap"
+            id="canvas-wrap"
+            role="region"
+            tabindex="0"
+            aria-label="驾驶练习场，W前进、S倒车、A和D转向、空格刹车、C回正。点击此处后使用键盘。"
           >
+            <canvas id="scene" aria-label="车辆、目标车位及运动轨迹俯视图"
+              >请使用支持 Canvas 的现代浏览器。</canvas
+            >
             <section class="steering-card">
               <div class="section-heading">
                 方向与车轮<span class="live-badge">实时</span>
@@ -268,59 +308,6 @@
               </div>
               <p class="steering-note">转弯时，内侧前轮比外侧转得更多。</p>
             </section>
-            <section class="lesson-card">
-              <div class="section-heading">
-                练习路线<span id="lesson-count">3 个小步骤</span>
-              </div>
-              <ol id="lesson-list"></ol>
-            </section>
-          </div>
-        </div>
-      </aside>
-      <main class="practice-area">
-        <section class="simulator" aria-label="交互式泊车模拟器">
-          <div class="scene-topbar">
-            <div>
-              <span class="live-dot"></span
-              ><strong id="scene-title">倒车入库</strong
-              ><span class="scene-divider"></span
-              ><span class="scene-caption">俯视练习场</span>
-            </div>
-            <div class="scene-actions">
-              <button
-                id="pause-button"
-                class="icon-button"
-                aria-label="暂停练习"
-                title="暂停 / 继续（P）"
-              >
-                <svg><use href="#i-pause" /></svg></button
-              ><button
-                id="reset-button"
-                class="icon-button"
-                aria-label="重新开始"
-                title="重新开始（R）"
-              >
-                <svg><use href="#i-reset" /></svg></button
-              ><button
-                id="fullscreen-button"
-                class="icon-button"
-                aria-label="全屏练习场"
-                title="全屏练习场"
-              >
-                <svg><use href="#i-expand" /></svg>
-              </button>
-            </div>
-          </div>
-          <div
-            class="canvas-wrap"
-            id="canvas-wrap"
-            role="region"
-            tabindex="0"
-            aria-label="驾驶练习场，W前进、S倒车、A和D转向、空格刹车、C回正。点击此处后使用键盘。"
-          >
-            <canvas id="scene" aria-label="车辆、目标车位及运动轨迹俯视图"
-              >请使用支持 Canvas 的现代浏览器。</canvas
-            >
             <div class="scene-label">
               <span class="scene-label-icon">P</span
               ><span id="scene-goal">将车辆倒入绿色车位</span>

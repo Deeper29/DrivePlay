@@ -9,10 +9,7 @@
       content="用可视化低速汽车模型，学习方向盘、车轮和倒车停车的运动原理。支持键盘操作、倒车入库和侧方停车。"
     />
     <title>DrivePlay · 可视化驾驶与泊车原理练习</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23167c69'/%3E%3Ctext x='12' y='29' font-family='sans-serif' font-size='28' font-weight='bold' fill='white'%3EP%3C/text%3E%3C/svg%3E"
-    />
+    <link rel="icon" type="image/png" href="./assets/steering-wheel.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -78,21 +75,29 @@
         </symbol>
       </defs>
     </svg>
-    <header class="site-header">
-      <a class="brand" href="./" aria-label="DrivePlay 首页">
-        <span class="brand-mark" aria-hidden="true">p<span></span></span>
-        <div class="brand-copy">
-          <h1>DrivePlay</h1>
-          <small>可视化驾驶与泊车原理练习</small>
-        </div>
-      </a>
-      <button class="button guide-button" id="guide-button">
-        <svg><use href="#i-book" /></svg>操作指南<span class="key-hint">?</span>
-      </button>
-    </header>
-    <main>
-      <div class="workspace">
-        <aside class="left-sidebar" aria-label="训练设置">
+    <div class="workspace">
+      <aside class="left-sidebar" aria-label="训练设置">
+        <header class="sidebar-header">
+          <a class="brand" href="./" aria-label="DrivePlay 首页">
+            <img
+              class="brand-mark"
+              src="./assets/steering-wheel.png"
+              width="44"
+              height="44"
+              alt=""
+            />
+            <div class="brand-copy">
+              <h1>DrivePlay</h1>
+              <small>可视化驾驶与泊车原理练习</small>
+            </div>
+          </a>
+          <button class="button guide-button" id="guide-button">
+            <svg><use href="#i-book" /></svg>操作指南<span class="key-hint"
+              >?</span
+            >
+          </button>
+        </header>
+        <div class="sidebar-content">
           <div class="section-heading">选择练习<span>01 — 03</span></div>
           <div class="scenario-list" role="group" aria-label="练习场景">
             <button
@@ -169,12 +174,110 @@
             ><span
               ><strong>慢速练习</strong
               ><small>给观察和思考多一点时间</small></span
-            ><input
-              id="slow-toggle"
-              type="checkbox"
-              role="switch" /><span class="switch"></span
+            ><input id="slow-toggle" type="checkbox" role="switch" /><span
+              class="switch"
+            ></span
           ></label>
-        </aside>
+
+          <div
+            class="sidebar-details"
+            role="group"
+            aria-label="车辆状态和练习提示"
+          >
+            <section class="steering-card">
+              <div class="section-heading">
+                方向与车轮<span class="live-badge">实时</span>
+              </div>
+              <div class="steering-visual">
+                <div class="wheel-tick top"></div>
+                <div class="wheel-tick left"></div>
+                <div class="wheel-tick right"></div>
+                <span class="wheel-label left">L</span
+                ><span class="wheel-label right">R</span
+                ><svg
+                  class="steering-wheel"
+                  id="steering-wheel"
+                  viewBox="0 0 160 160"
+                  aria-label="方向盘角度"
+                >
+                  <defs>
+                    <linearGradient
+                      id="wheel-gradient"
+                      x1="0"
+                      x2="1"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop stop-color="#394a53" />
+                      <stop offset="1" stop-color="#1f2c34" />
+                    </linearGradient>
+                  </defs>
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="61"
+                    fill="none"
+                    stroke="#e3e9e9"
+                    stroke-width="20"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="60"
+                    fill="none"
+                    stroke="url(#wheel-gradient)"
+                    stroke-width="15"
+                  />
+                  <path
+                    d="m23 65 44 8m70-8-44 8m-13 9v54"
+                    fill="none"
+                    stroke="#34434b"
+                    stroke-width="14"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M55 69q25-11 50 0l-5 27q-20 10-40 0Z"
+                    fill="url(#wheel-gradient)"
+                    stroke="#536169"
+                    stroke-width="1.5"
+                  />
+                  <circle
+                    cx="80"
+                    cy="82"
+                    r="9"
+                    fill="none"
+                    stroke="#acbbb8"
+                    stroke-width="1.5"
+                  />
+                  <path d="M76 20h8" stroke="#68c3a9" stroke-width="5" />
+                </svg>
+                <div class="wheel-center-angle">
+                  <strong id="wheel-angle">0°</strong><span>方向盘转角</span>
+                </div>
+              </div>
+              <div class="front-wheels">
+                <div class="axle-diagram">
+                  <div class="mini-wheel" id="left-wheel"></div>
+                  <span></span>
+                  <div class="mini-wheel" id="right-wheel"></div>
+                </div>
+                <div class="wheel-values">
+                  <span>左前轮 <strong id="left-angle">0°</strong></span
+                  ><span>右前轮 <strong id="right-angle">0°</strong></span>
+                </div>
+              </div>
+              <p class="steering-note">转弯时，内侧前轮比外侧转得更多。</p>
+            </section>
+            <section class="lesson-card">
+              <div class="section-heading">
+                练习路线<span id="lesson-count">3 个小步骤</span>
+              </div>
+              <ol id="lesson-list"></ol>
+            </section>
+          </div>
+        </div>
+      </aside>
+      <main class="practice-area">
         <section class="simulator" aria-label="交互式泊车模拟器">
           <div class="scene-topbar">
             <div>
@@ -297,100 +400,8 @@
             ><button data-control="right" aria-label="右打方向">右打 →</button>
           </div>
         </section>
-        <aside class="right-sidebar" aria-label="车辆状态和练习提示">
-          <section class="steering-card">
-            <div class="section-heading">
-              方向与车轮<span class="live-badge">实时</span>
-            </div>
-            <div class="steering-visual">
-              <div class="wheel-tick top"></div>
-              <div class="wheel-tick left"></div>
-              <div class="wheel-tick right"></div>
-              <span class="wheel-label left">L</span
-              ><span class="wheel-label right">R</span
-              ><svg
-                class="steering-wheel"
-                id="steering-wheel"
-                viewBox="0 0 160 160"
-                aria-label="方向盘角度"
-              >
-                <defs>
-                  <linearGradient
-                    id="wheel-gradient"
-                    x1="0"
-                    x2="1"
-                    y1="0"
-                    y2="1"
-                  >
-                    <stop stop-color="#394a53" />
-                    <stop offset="1" stop-color="#1f2c34" />
-                  </linearGradient>
-                </defs>
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="61"
-                  fill="none"
-                  stroke="#e3e9e9"
-                  stroke-width="20"
-                />
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="60"
-                  fill="none"
-                  stroke="url(#wheel-gradient)"
-                  stroke-width="15"
-                />
-                <path
-                  d="m23 65 44 8m70-8-44 8m-13 9v54"
-                  fill="none"
-                  stroke="#34434b"
-                  stroke-width="14"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M55 69q25-11 50 0l-5 27q-20 10-40 0Z"
-                  fill="url(#wheel-gradient)"
-                  stroke="#536169"
-                  stroke-width="1.5"
-                />
-                <circle
-                  cx="80"
-                  cy="82"
-                  r="9"
-                  fill="none"
-                  stroke="#acbbb8"
-                  stroke-width="1.5"
-                />
-                <path d="M76 20h8" stroke="#68c3a9" stroke-width="5" />
-              </svg>
-              <div class="wheel-center-angle">
-                <strong id="wheel-angle">0°</strong><span>方向盘转角</span>
-              </div>
-            </div>
-            <div class="front-wheels">
-              <div class="axle-diagram">
-                <div class="mini-wheel" id="left-wheel"></div>
-                <span></span>
-                <div class="mini-wheel" id="right-wheel"></div>
-              </div>
-              <div class="wheel-values">
-                <span>左前轮 <strong id="left-angle">0°</strong></span
-                ><span>右前轮 <strong id="right-angle">0°</strong></span>
-              </div>
-            </div>
-            <p class="steering-note">转弯时，内侧前轮比外侧转得更多。</p>
-          </section>
-          <section class="lesson-card">
-            <div class="section-heading">
-              练习路线<span id="lesson-count">3 个小步骤</span>
-            </div>
-            <ol id="lesson-list"></ol>
-          </section>
-        </aside>
-      </div>
-    </main>
+      </main>
+    </div>
     <dialog id="guide-dialog" aria-labelledby="guide-title">
       <button
         class="dialog-close icon-button"

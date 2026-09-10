@@ -63,16 +63,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
-.site-header {
-  height: 80px;
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 38px;
-  gap: 20px;
-}
+
 .brand {
   display: flex;
   align-items: center;
@@ -97,30 +88,6 @@ a {
   white-space: nowrap;
 }
 
-.brand-mark {
-  position: relative;
-  width: 40px;
-  height: 42px;
-  border-radius: 12px;
-  background: var(--green);
-  color: white;
-  font-size: 36px;
-  font-weight: 650;
-  line-height: 35px;
-  padding-left: 10px;
-  font-family: Inter, sans-serif;
-  letter-spacing: -4px;
-  box-shadow: 0 3px 6px #1e755716;
-}
-.brand-mark span {
-  position: absolute;
-  right: 5px;
-  bottom: 6px;
-  width: 9px;
-  height: 3px;
-  background: #98d7bb;
-  border-radius: 2px;
-}
 .live-dot {
   width: 6px;
   height: 6px;
@@ -164,11 +131,7 @@ a {
   background: #126350;
   transform: translateY(-1px);
 }
-main {
-  padding: 0 30px;
-  max-width: 1920px;
-  margin: auto;
-}
+
 .eyebrow {
   color: #82948a;
   font-size: 9px;
@@ -176,13 +139,6 @@ main {
   letter-spacing: 2px;
 }
 
-.workspace {
-  margin: 26px 0;
-  display: grid;
-  grid-template-columns: 216px minmax(0, 1fr) 258px;
-  gap: 20px;
-  align-items: start;
-}
 .section-heading {
   display: flex;
   align-items: center;
@@ -205,9 +161,7 @@ main {
   stroke-width: 1.5;
   fill: none;
 }
-.left-sidebar {
-  padding-top: 4px;
-}
+
 .scenario-list {
   display: flex;
   flex-direction: column;
@@ -462,14 +416,7 @@ input:checked + .switch:after {
   width: 16px;
   height: 16px;
 }
-.canvas-wrap {
-  position: relative;
-  height: clamp(430px, calc(100vh - 374px), 670px);
-  min-height: 430px;
-  background: #e8ece8;
-  outline: none;
-  overflow: hidden;
-}
+
 .canvas-wrap:focus-visible {
   box-shadow: inset 0 0 0 2px #5b9b7c;
 }
@@ -746,11 +693,7 @@ kbd {
   color: #adb7ae;
   margin-left: auto;
 }
-.right-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+
 .steering-card,
 .lesson-card {
   border: 1px solid var(--border);
@@ -1238,13 +1181,6 @@ dialog > .primary {
   display: flex;
 }
 @media (min-width: 1600px) {
-  .workspace {
-    grid-template-columns: 240px minmax(0, 1fr) 284px;
-    gap: 24px;
-  }
-  main {
-    padding: 0 40px;
-  }
   .scenario {
     padding: 19px 14px;
   }
@@ -1257,9 +1193,7 @@ dialog > .primary {
   .setting small {
     font-size: 10px;
   }
-  .canvas-wrap {
-    min-height: 540px;
-  }
+
   .keyboard-bar {
     font-size: 10px;
     gap: 22px;
@@ -1300,13 +1234,6 @@ dialog > .primary {
   }
 }
 @media (max-width: 1250px) {
-  main {
-    padding: 0 20px;
-  }
-  .workspace {
-    grid-template-columns: 185px minmax(0, 1fr) 225px;
-    gap: 14px;
-  }
   .scenario {
     gap: 8px;
     padding: 15px 8px;
@@ -1378,20 +1305,8 @@ dialog > .primary {
     left: 12px;
     gap: 9px;
   }
-  .canvas-wrap {
-    min-height: 470px;
-  }
 }
 @media (max-width: 1050px) {
-  .workspace {
-    grid-template-columns: 185px minmax(0, 1fr);
-  }
-  .right-sidebar {
-    grid-column: 1/-1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
   .steering-card {
     min-height: 260px;
   }
@@ -1427,26 +1342,13 @@ dialog > .primary {
   .lesson-card {
     min-height: 260px;
   }
-  .canvas-wrap {
-    height: 540px;
-  }
 }
 @media (max-width: 700px) {
-  .site-header {
-    height: 66px;
-    padding: 0 18px;
-  }
   .brand {
     font-size: 16px;
     gap: 10px;
   }
-  .brand-mark {
-    width: 34px;
-    height: 37px;
-    font-size: 31px;
-    line-height: 31px;
-    padding-left: 8px;
-  }
+
   .brand small {
     font-size: 8px;
     letter-spacing: 0.15px;
@@ -1463,22 +1365,7 @@ dialog > .primary {
     width: 15px;
     height: 15px;
   }
-  main {
-    padding: 0 14px;
-  }
 
-  .workspace {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .left-sidebar {
-    width: 100%;
-    padding: 0;
-  }
-  .left-sidebar > .section-heading:first-child {
-    display: none;
-  }
   .scenario-list {
     flex-direction: row;
     gap: 6px;
@@ -1524,10 +1411,7 @@ dialog > .primary {
     font-size: 10px;
     gap: 7px;
   }
-  .canvas-wrap {
-    height: 350px;
-    min-height: 340px;
-  }
+
   .scene-label {
     font-size: 8px;
     left: 10px;
@@ -1607,12 +1491,7 @@ dialog > .primary {
   .touch-controls {
     display: flex;
   }
-  .right-sidebar {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-    width: 100%;
-  }
+
   .steering-card {
     padding: 14px 10px;
     min-height: 246px;
@@ -1809,5 +1688,149 @@ dialog .dialog-intro,
   *:after {
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  height: 100vh;
+  height: 100dvh;
+  min-height: 620px;
+}
+.left-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-right: 1px solid var(--border);
+}
+.sidebar-header {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.brand-mark {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.sidebar-header .guide-button {
+  width: 100%;
+  margin-top: 18px;
+  justify-content: flex-start;
+}
+.sidebar-header .key-hint {
+  margin-left: auto;
+}
+.sidebar-content {
+  padding: 20px;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #d4dfd7 transparent;
+}
+.sidebar-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 24px;
+}
+.practice-area {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  padding: 24px;
+}
+.practice-area > .simulator {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.simulator > :not(.canvas-wrap) {
+  flex-shrink: 0;
+}
+.canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #e8ece8;
+  outline: none;
+  overflow: hidden;
+}
+@media (max-width: 1050px) {
+  .workspace {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+  .sidebar-header {
+    padding: 20px 16px 16px;
+  }
+  .sidebar-content {
+    padding: 18px 16px;
+  }
+  .practice-area {
+    padding: 16px;
+  }
+}
+@media (max-width: 700px) {
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100dvh;
+    gap: 14px;
+  }
+  .left-sidebar,
+  .sidebar-content {
+    display: contents;
+  }
+  .sidebar-header {
+    order: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    background: #fff;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+  .sidebar-header .guide-button {
+    width: auto;
+    margin: 0;
+  }
+  .sidebar-content > .section-heading:first-child {
+    display: none;
+  }
+  .scenario-list {
+    order: 1;
+    margin: 0 14px;
+  }
+  .practice-area {
+    order: 2;
+    padding: 0 14px;
+  }
+  .practice-area > .simulator {
+    height: auto;
+  }
+  .canvas-wrap {
+    flex: none;
+    height: 350px;
+    min-height: 340px;
+  }
+  .sidebar-details {
+    order: 3;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin: 0 14px 18px;
+    gap: 12px;
   }
 }

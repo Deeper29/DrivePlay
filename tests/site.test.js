@@ -8,6 +8,45 @@ const resources = [...html.matchAll(/(?:href|src)="([^"]+)"/g)]
   .map((match) => match[1])
   .filter((value) => !value.startsWith("#") && !/^[a-z]+:/i.test(value));
 
+test("branding, guidance, settings, and state share one sidebar beside the practice area", () => {
+  const sidebar = html.match(
+    /<aside class="left-sidebar"[^>]*>([\s\S]*?)<\/aside>/,
+  )?.[1];
+  const practice = html.match(
+    /<main class="practice-area">([\s\S]*?)<\/main>/,
+  )?.[1];
+  assert.ok(sidebar);
+  assert.ok(practice);
+  for (const retained of [
+    'class="sidebar-header"',
+    'class="brand"',
+    'id="guide-button"',
+    'class="scenario-list"',
+    'id="slow-toggle"',
+    'id="steering-wheel"',
+    'id="lesson-list"',
+  ])
+    assert.ok(sidebar.includes(retained));
+  assert.ok(practice.includes('class="simulator"'));
+  assert.ok(!practice.includes('id="guide-button"'));
+  assert.ok(!html.includes('class="site-header"'));
+  assert.ok(!html.includes('class="right-sidebar"'));
+  assert.equal((html.match(/<aside\b/g) || []).length, 1);
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(ids.length, new Set(ids).size);
+});
+
+test("the supplied steering-wheel image is used for the logo and favicon", async () => {
+  const logo = html.match(/<img\b[^>]*class="brand-mark"[^>]*>/)?.[0];
+  const favicon = html.match(/<link\b[^>]*rel="icon"[^>]*>/)?.[0];
+  assert.match(logo || "", /src="\.\/assets\/steering-wheel\.png"/);
+  assert.match(favicon || "", /href="\.\/assets\/steering-wheel\.png"/);
+  const image = await readFile(new URL("assets/steering-wheel.png", root));
+  assert.equal(image.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+  assert.equal(image.readUInt32BE(16), 60);
+  assert.equal(image.readUInt32BE(20), 60);
+});
+
 test("normal speed is the default in both the UI and input state", async () => {
   const toggle = html.match(/<input\b[^>]*id="slow-toggle"[^>]*>/)?.[0];
   assert.ok(toggle);

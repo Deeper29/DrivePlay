@@ -187,6 +187,116 @@ test("all body corners are checked against world boundary", () => {
   );
 });
 
+function parkedAt(target, lateral = 0, longitudinal = 0, headingError = 0) {
+  const heading = (target.heading || 0) + headingError;
+  const center = localToWorld(
+    { ...target, heading: target.heading || 0 },
+    lateral,
+    longitudinal,
+  );
+  const rearAxle = localToWorld(
+    { ...center, heading },
+    0,
+    -(CAR.wheelbase + CAR.frontOverhang - CAR.rearOverhang) / 2,
+  );
+  return { ...initial, ...rearAxle, heading };
+}
+
+test("parking requires centering within 10 cm in both slot axes", () => {
+  for (const { target } of [SCENARIOS.reverse, SCENARIOS.parallel]) {
+    assert.equal(isParked(parkedAt(target), target), true);
+    for (const sign of [-1, 1]) {
+      for (const [lateral, longitudinal] of [
+        [sign * 0.1, 0],
+        [0, sign * 0.1],
+        [sign * 0.1, -sign * 0.1],
+      ])
+        assert.equal(
+          isParked(parkedAt(target, lateral, longitudinal), target),
+          true,
+        );
+      for (const [lateral, longitudinal] of [
+        [sign * 0.101, 0],
+        [0, sign * 0.101],
+        [sign * 0.4, 0],
+        [0, sign * 0.4],
+      ])
+        assert.equal(
+          isParked(parkedAt(target, lateral, longitudinal), target),
+          false,
+        );
+    }
+  }
+});
+
+test("parking alignment must be within two degrees even when perfectly centered", () => {
+  const target = SCENARIOS.reverse.target;
+  for (const sign of [-1, 1]) {
+    assert.equal(
+      isParked(parkedAt(target, 0, 0, (sign * 2 * Math.PI) / 180), target),
+      true,
+    );
+    assert.equal(
+      isParked(parkedAt(target, 0, 0, (sign * 2.01 * Math.PI) / 180), target),
+      false,
+    );
+    assert.equal(
+      isParked(parkedAt(target, 0, 0, (sign * 6 * Math.PI) / 180), target),
+      false,
+    );
+  }
+});
+
+test("centering follows rotated slot axes and heading wraps across pi", () => {
+  for (const heading of [
+    Math.PI / 2,
+    Math.PI / 3,
+    Math.PI - 0.01,
+    -Math.PI + 0.01,
+  ]) {
+    const target = { ...SCENARIOS.reverse.target, heading };
+    assert.equal(isParked(parkedAt(target, 0.1, -0.1), target), true);
+    assert.equal(isParked(parkedAt(target, 0.101, 0), target), false);
+    assert.equal(isParked(parkedAt(target, 0, -0.101), target), false);
+    for (const sign of [-1, 1]) {
+      const state = parkedAt(target, 0, 0, (sign * 2 * Math.PI) / 180);
+      state.heading = Math.atan2(
+        Math.sin(state.heading),
+        Math.cos(state.heading),
+      );
+      assert.equal(isParked(state, target), true);
+    }
+  }
+});
+
+test("parking uses the body center, not the rear axle, and still checks all corners", () => {
+  const target = SCENARIOS.parallel.target;
+  const state = parkedAt(target);
+  const body = carPolygon(state);
+  close(body.reduce((sum, point) => sum + point.x, 0) / 4, target.x);
+  close(body.reduce((sum, point) => sum + point.y, 0) / 4, target.y);
+  assert.ok(Math.hypot(state.x - target.x, state.y - target.y) > 1);
+  assert.equal(isParked(state, target), true);
+  assert.equal(isParked({ ...state, x: target.x, y: target.y }, target), false);
+  assert.equal(isParked(state, { ...target, width: CAR.width + 0.04 }), false);
+  assert.equal(
+    isParked(state, {
+      ...target,
+      length: CAR.wheelbase + CAR.frontOverhang + CAR.rearOverhang + 0.04,
+    }),
+    false,
+  );
+});
+
+test("centered parking preserves the stopped-speed threshold in both directions", () => {
+  const target = SCENARIOS.reverse.target;
+  const state = parkedAt(target);
+  for (const sign of [-1, 1]) {
+    assert.equal(isParked({ ...state, speed: sign * 0.08 }, target), true);
+    assert.equal(isParked({ ...state, speed: sign * 0.081 }, target), false);
+  }
+});
+
 test("parking requires whole body inside, correct heading, and stopping", () => {
   const t = SCENARIOS.reverse.target;
   const parked = { ...initial, x: t.x, y: t.y + CAR.wheelbase / 2 };

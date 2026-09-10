@@ -155,11 +155,24 @@ export function isParked(state, target) {
     !target ||
     Math.abs(state.speed) > 0.08 ||
     Math.abs(angleDifference(state.heading, target.heading || 0)) >
-      (7 * Math.PI) / 180
+      (2 * Math.PI) / 180 + 1e-9
   )
     return false;
   const c = Math.cos(target.heading || 0),
     s = Math.sin(target.heading || 0);
+  const center = localToWorld(
+    state,
+    0,
+    (CAR.wheelbase + CAR.frontOverhang - CAR.rearOverhang) / 2,
+  );
+  const dx = center.x - target.x,
+    dy = center.y - target.y;
+  const centerTolerance = 0.1 + 1e-9;
+  if (
+    Math.abs(dx * c + dy * s) > centerTolerance ||
+    Math.abs(-dx * s + dy * c) > centerTolerance
+  )
+    return false;
   return carPolygon(state).every((p) => {
     const dx = p.x - target.x,
       dy = p.y - target.y;

@@ -719,7 +719,7 @@ function finishParking() {
   state.speed = 0;
   $("success-overlay").hidden = false;
   $("success-message").textContent =
-    `车身完整入位，方向偏差 ${Math.abs(degrees(angleDifference(state.heading, scenario.target.heading))).toFixed(1)}°。${collisions ? `本次触碰 ${collisions} 次，再练一次会更好。` : "全程无碰撞，做得不错。"}`;
+    `车身居中入位，方向偏差 ${Math.abs(degrees(angleDifference(state.heading, scenario.target.heading))).toFixed(1)}°。${collisions ? `本次触碰 ${collisions} 次，再练一次会更好。` : "全程无碰撞，做得不错。"}`;
   $("next-button").innerHTML =
     `${scenarioId === "reverse" ? "试试侧方停车" : "去自由探索"} <svg><use href="#i-arrow"/></svg>`;
 }

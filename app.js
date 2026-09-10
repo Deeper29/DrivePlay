@@ -618,12 +618,6 @@ function setPaused(value) {
   paused = value;
   clearInputs();
   $("pause-overlay").hidden = !paused || completed;
-  $("pause-button").setAttribute(
-    "aria-label",
-    paused ? "继续练习" : "暂停练习",
-  );
-  $("pause-button").innerHTML =
-    `<svg><use href="#i-${paused ? "play" : "pause"}"/></svg>`;
 }
 function selectScenario(id, announce = true) {
   scenarioId = id;
@@ -640,7 +634,6 @@ function selectScenario(id, announce = true) {
   clearInputs();
   setPaused(false);
   $("success-overlay").hidden = true;
-  $("scene-title").textContent = scenario.name;
   $("scene-goal").textContent =
     id === "free"
       ? "试试相同转向下的前进与倒车"
@@ -826,16 +819,8 @@ for (const name of ["prediction", "trails", "center", "slow"])
   $(name + "-toggle").addEventListener("change", (event) => {
     options[name] = event.target.checked;
   });
-$("pause-button").addEventListener("click", () => {
-  if (!completed) setPaused(!paused);
-  $("canvas-wrap").focus({ preventScroll: true });
-});
 $("resume-button").addEventListener("click", () => {
   setPaused(false);
-  $("canvas-wrap").focus({ preventScroll: true });
-});
-$("reset-button").addEventListener("click", () => {
-  selectScenario(scenarioId);
   $("canvas-wrap").focus({ preventScroll: true });
 });
 $("center-button").addEventListener("click", () => {
@@ -850,15 +835,6 @@ $("next-button").addEventListener("click", () => {
 $("again-button").addEventListener("click", () => {
   selectScenario(scenarioId);
   $("canvas-wrap").focus({ preventScroll: true });
-});
-$("fullscreen-button").addEventListener("click", async () => {
-  try {
-    if (!document.fullscreenElement)
-      await document.querySelector(".simulator").requestFullscreen();
-    else await document.exitFullscreen();
-  } catch {
-    showToast("当前浏览器不支持全屏，可放大浏览器窗口");
-  }
 });
 let pausedBeforeGuide = false;
 function openGuide() {

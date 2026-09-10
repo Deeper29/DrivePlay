@@ -99,6 +99,54 @@ test("the supplied product icon is used for the logo and favicon", async () => {
   assert.equal(image.readUInt32BE(20), 60);
 });
 
+test("all four settings use the same switch-row layout without the eye icon", async () => {
+  const settings = html.match(/<div class="settings">([\s\S]*?)<\/div>/)?.[1];
+  assert.ok(settings);
+  const rows = [
+    ...settings.matchAll(/<label class="setting"[^>]*>([\s\S]*?)<\/label>/g),
+  ];
+  assert.equal(rows.length, 4);
+  for (const [index, id] of [
+    "prediction-toggle",
+    "trails-toggle",
+    "center-toggle",
+    "slow-toggle",
+  ].entries()) {
+    assert.ok(rows[index][1].includes(`id="${id}"`));
+    assert.ok(rows[index][1].includes('role="switch"'));
+    assert.ok(rows[index][1].includes('class="switch"'));
+  }
+  const heading = html.match(
+    /class="section-heading visualization-heading">([\s\S]*?)<\/div>/,
+  )?.[1];
+  assert.equal(heading?.trim(), "可视化辅助");
+  assert.doesNotMatch(html, /slow-setting|turtle-icon|i-eye/);
+  const css = await readFile(new URL("styles.css", root), "utf8");
+  assert.doesNotMatch(css, /\.slow-setting/);
+});
+
+test("the practice canvas starts at the top with the complete old toolbar removed", async () => {
+  const app = await readFile(new URL("app.js", root), "utf8");
+  const css = await readFile(new URL("styles.css", root), "utf8");
+  assert.match(html, /class="simulator"[^>]*>\s*<div\s+class="canvas-wrap"/);
+  for (const removed of [
+    "scene-topbar",
+    "scene-title",
+    "scene-actions",
+    "pause-button",
+    "reset-button",
+    "fullscreen-button",
+  ]) {
+    assert.ok(!html.includes(removed));
+    assert.ok(!app.includes(removed));
+  }
+  assert.doesNotMatch(css, /\.scene-topbar|\.scene-actions/);
+  assert.match(app, /event\.code === "KeyP"/);
+  assert.match(app, /event\.code === "KeyR"/);
+  assert.ok(html.includes('id="resume-button"'));
+  assert.ok(html.includes('id="center-button"'));
+});
+
 test("normal speed is the default in both the UI and input state", async () => {
   const toggle = html.match(/<input\b[^>]*id="slow-toggle"[^>]*>/)?.[0];
   assert.ok(toggle);

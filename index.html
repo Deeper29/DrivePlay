@@ -47,15 +47,8 @@
         <symbol id="i-reset" viewBox="0 0 24 24">
           <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
         </symbol>
-        <symbol id="i-pause" viewBox="0 0 24 24">
-          <path d="M8 5v14M16 5v14" />
-        </symbol>
         <symbol id="i-play" viewBox="0 0 24 24">
           <path d="m8 4 12 8-12 8z" />
-        </symbol>
-        <symbol id="i-eye" viewBox="0 0 24 24">
-          <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12" />
-          <circle cx="12" cy="12" r="3" />
         </symbol>
         <symbol id="i-check" viewBox="0 0 24 24">
           <path d="m5 12 4 4L19 6" />
@@ -69,9 +62,6 @@
         </symbol>
         <symbol id="i-bulb" viewBox="0 0 24 24">
           <path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 2H9s0-1-1-2" />
-        </symbol>
-        <symbol id="i-expand" viewBox="0 0 24 24">
-          <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
         </symbol>
       </defs>
     </svg>
@@ -133,9 +123,7 @@
               ><span class="scenario-number">03</span>
             </button>
           </div>
-          <div class="section-heading visualization-heading">
-            可视化辅助<svg><use href="#i-eye" /></svg>
-          </div>
+          <div class="section-heading visualization-heading">可视化辅助</div>
           <div class="settings">
             <label class="setting"
               ><span
@@ -168,52 +156,18 @@
                 class="switch"
               ></span
             ></label>
+            <label class="setting"
+              ><span class="setting-text"
+                >慢速练习<small>给观察和思考多一点时间</small></span
+              ><input id="slow-toggle" type="checkbox" role="switch" /><span
+                class="switch"
+              ></span
+            ></label>
           </div>
-          <label class="slow-setting"
-            ><span class="turtle-icon">◴</span
-            ><span
-              ><strong>慢速练习</strong
-              ><small>给观察和思考多一点时间</small></span
-            ><input id="slow-toggle" type="checkbox" role="switch" /><span
-              class="switch"
-            ></span
-          ></label>
         </div>
       </aside>
       <main class="practice-area">
         <section class="simulator" aria-label="交互式泊车模拟器">
-          <div class="scene-topbar">
-            <div>
-              <span class="live-dot"></span
-              ><strong id="scene-title">倒车入库</strong
-              ><span class="scene-divider"></span
-              ><span class="scene-caption">俯视练习场</span>
-            </div>
-            <div class="scene-actions">
-              <button
-                id="pause-button"
-                class="icon-button"
-                aria-label="暂停练习"
-                title="暂停 / 继续（P）"
-              >
-                <svg><use href="#i-pause" /></svg></button
-              ><button
-                id="reset-button"
-                class="icon-button"
-                aria-label="重新开始"
-                title="重新开始（R）"
-              >
-                <svg><use href="#i-reset" /></svg></button
-              ><button
-                id="fullscreen-button"
-                class="icon-button"
-                aria-label="全屏练习场"
-                title="全屏练习场"
-              >
-                <svg><use href="#i-expand" /></svg>
-              </button>
-            </div>
-          </div>
           <div
             class="canvas-wrap"
             id="canvas-wrap"

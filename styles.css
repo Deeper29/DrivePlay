@@ -88,13 +88,6 @@ a {
   white-space: nowrap;
 }
 
-.live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #32957a;
-  display: inline-block;
-}
 .button {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -260,6 +253,12 @@ a {
   margin-left: 20px;
   letter-spacing: -0.1px;
 }
+.setting .setting-text {
+  padding-left: 20px;
+}
+.setting .setting-text small {
+  margin-left: 0;
+}
 .legend-line {
   width: 12px;
   border-top: 2px dashed;
@@ -323,40 +322,6 @@ input:checked + .switch {
 input:checked + .switch:after {
   transform: translateX(12px);
 }
-.slow-setting {
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  position: relative;
-  padding: 13px 11px;
-  margin-top: 24px;
-  cursor: pointer;
-  background: #fff9;
-}
-.slow-setting .turtle-icon {
-  color: #648773;
-  font-size: 25px;
-  line-height: 1;
-}
-.slow-setting strong {
-  display: block;
-  font-size: 11px;
-  font-weight: 550;
-}
-.slow-setting small {
-  font-size: 8px;
-  color: #98a59c;
-  margin-top: 6px;
-  display: block;
-}
-.slow-setting .switch {
-  margin-left: auto;
-}
-.slow-setting input {
-  right: 11px;
-}
 
 .simulator {
   background: white;
@@ -366,37 +331,7 @@ input:checked + .switch:after {
   box-shadow: none;
   min-width: 0;
 }
-.scene-topbar {
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 18px;
-  border-bottom: 1px solid #e6eae6;
-}
-.scene-topbar > div:first-child {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 11px;
-}
-.scene-topbar strong {
-  font-weight: 550;
-}
-.scene-divider {
-  height: 11px;
-  width: 1px;
-  background: #dfe6df;
-  margin: 0 2px;
-}
-.scene-caption {
-  font-size: 9px;
-  color: #9aa59d;
-}
-.scene-actions {
-  display: flex;
-  gap: 3px;
-}
+
 .icon-button {
   display: grid;
   place-items: center;
@@ -970,32 +905,7 @@ kbd {
   background: #d6eadd;
   border-color: #80ab8e;
 }
-.simulator:fullscreen {
-  display: flex;
-  flex-direction: column;
-  border-radius: 0;
-  background: #fff;
-}
-.simulator:fullscreen .canvas-wrap {
-  flex: 1;
-  height: auto;
-  min-height: 0;
-}
-.simulator:fullscreen .scene-topbar {
-  flex-shrink: 0;
-}
-.simulator:fullscreen .driving-dock {
-  max-width: 850px;
-  width: 100%;
-  margin: auto;
-  border: 0;
-}
-.simulator:fullscreen .keyboard-bar {
-  justify-content: center;
-}
-.simulator:fullscreen .keyboard-bar .arrow-alternative {
-  margin-left: 0;
-}
+
 dialog {
   border: 1px solid #d9e4d9;
   border-radius: 18px;
@@ -1147,16 +1057,7 @@ dialog > .primary {
     right: 7px;
     top: 7px;
   }
-  .slow-setting {
-    gap: 6px;
-    padding: 13px 8px;
-  }
-  .slow-setting .turtle-icon {
-    display: none;
-  }
-  .slow-setting small {
-    font-size: 8px;
-  }
+
   .keyboard-bar {
     gap: 10px;
     padding: 0 12px;
@@ -1242,23 +1143,11 @@ dialog > .primary {
   .scenario small,
   .scenario-number,
   .visualization-heading,
-  .settings,
-  .slow-setting {
+  .settings {
     display: none;
   }
   .simulator {
     width: 100%;
-  }
-  .scene-topbar {
-    height: 45px;
-    padding: 0 12px;
-  }
-  .scene-caption {
-    font-size: 8px;
-  }
-  .scene-topbar > div:first-child {
-    font-size: 10px;
-    gap: 7px;
   }
 
   .scene-label {
@@ -1409,8 +1298,6 @@ dialog > .primary {
 .scenario-number,
 .scenario.selected .scenario-number,
 .setting small,
-.slow-setting small,
-.scene-caption,
 .dock-label,
 .speed-readout > div > span,
 .direction-readout > div > span,
@@ -1458,9 +1345,6 @@ dialog .dialog-intro,
 }
 .steering-note {
   font-size: 10px;
-}
-.slow-setting .turtle-icon {
-  display: none;
 }
 
 .alignment-feedback {

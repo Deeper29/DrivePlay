@@ -88,12 +88,12 @@ test("the practice area has no enclosing card or surrounding padding", async () 
     assert.doesNotMatch(match[1], /padding:/);
 });
 
-test("the supplied steering-wheel image is used for the logo and favicon", async () => {
+test("the supplied product icon is used for the logo and favicon", async () => {
   const logo = html.match(/<img\b[^>]*class="brand-mark"[^>]*>/)?.[0];
   const favicon = html.match(/<link\b[^>]*rel="icon"[^>]*>/)?.[0];
-  assert.match(logo || "", /src="\.\/assets\/steering-wheel\.png"/);
-  assert.match(favicon || "", /href="\.\/assets\/steering-wheel\.png"/);
-  const image = await readFile(new URL("assets/steering-wheel.png", root));
+  assert.match(logo || "", /src="\.\/assets\/driveplay-icon\.png"/);
+  assert.match(favicon || "", /href="\.\/assets\/driveplay-icon\.png"/);
+  const image = await readFile(new URL("assets/driveplay-icon.png", root));
   assert.equal(image.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
   assert.equal(image.readUInt32BE(16), 60);
   assert.equal(image.readUInt32BE(20), 60);
